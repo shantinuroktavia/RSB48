@@ -1,0 +1,311 @@
+<?php
+	header('X-Frame-Options: SAMEORIGIN'); 
+	include_once("Statics.php");
+	$statics = new Statics();
+	$locations = $statics->getAllLocation();
+?>
+
+<!DOCTYPE HTML>
+<html>
+	<head><link rel="icon" type="image/png" href="images/logo.png" alt="logo">
+		<title>Portal Online Pinjam-meminjam Buku Kuliah</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700" rel="stylesheet" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/fb_style.css" />
+		<noscript><link rel="stylesheet" href="css/5grid/core.css" /><link rel="stylesheet" href="css/5grid/core-desktop.css" /><link rel="stylesheet" href="css/5grid/core-1200px.css" /><link rel="stylesheet" href="css/5grid/core-noscript.css" /><link rel="stylesheet" href="css/style-desktop.css" /></noscript>
+		<script src="css/5grid/jquery.js"></script>
+		<script src="js/jquery.tools.min.js"></script>
+		<script src="http://connect.facebook.net/en_US/all.js"></script>
+		<script>
+			$global_name = 'Saya';
+			$timestamp = Math.round(new Date().getTime() / 1000);   // untuk mengambil feed baru (terupdate)
+			$lasttimestamp = Math.round(new Date().getTime() / 1000);  // untuk mengambil feed lama
+			$global_location_id = 1;
+			var notifData;
+		</script>
+		<script src="js/messaging.js"></script>
+		<script src="js/notification.js"></script>
+		<script src="js/facebook.js"></script>
+		<script src="js/feed.js"></script>
+		<script src="js/validator.js"></script>
+		<script src="css/5grid/init.js?use=mobile,desktop,1000px&amp;mobileUI=1&amp;mobileUI_theme=none&amp;mobileUI_titleBarHeight=60&amp;mobileUI_openerWidth=52"></script>
+		<!--[if IE 9]><link rel="stylesheet" href="css/style-ie9.css" /><![endif]-->
+		
+		<!-- Fungsi Newsfeed -->
+		<script>
+			$(document).ready(function(){
+			var $interval;
+			$('#feedInfo').html("Loading feeds...");
+			$('#feedNotif').fadeIn();
+			
+			$('#location_info').html('Displaying all feeds from \"'+$('#lokasi option:nth-child('+$global_location_id+')').html()+"\"");
+			
+			<!-- Pemilihan lokasi newsfeed -->
+			$('#lokasi').change(function(){	
+				$lasttimestamp = Math.round(new Date().getTime() / 1000);
+				$global_location_id = parseInt($('#lokasi option:selected').val())+1;
+				
+				$('#location_info').html('Displaying all feeds from \"'+$('#lokasi option:nth-child('+$global_location_id+')').html()+"\"");
+				
+				$('#feedInfo').html("Refreshing feeds...");
+				$('#moreFeeds').html('More Feeds...'); 
+				$('#feedNotif').fadeIn();
+				
+				$('.feed').each(function(i, obj){
+					$(obj).fadeOut();
+					if(i != 0){
+						$(obj).remove();
+					}else{
+						$(obj).html("");
+					}
+				});
+												
+				setTimeout(function(){
+					console.log($lasttimestamp);
+					getFeeds({
+						callback:function(data){$data = JSON.parse(data); displayFeed($data.data, $data.keys, false)}, 
+						total:10, 
+						'location_id': $global_location_id
+					});
+					$('#feedNotif').fadeOut();					
+				}, 1000);
+				
+				$timestamp = Math.round(new Date().getTime() / 1000); 
+			});
+			
+			setTimeout(function(){
+				getFeeds({
+						callback:function(data){$data = JSON.parse(data); displayFeed($data.data, $data.keys, false)}, 
+						total:10, 
+						location_id: $global_location_id
+					});
+				$('#feedNotif').fadeOut();
+			}, 1500);
+			
+			fb_init();
+			
+			<!-- Set interval masuknya feed baru, 5 detik -->
+			$interval = setInterval( function(){
+				checkNewFeeds( {
+					'callback': function(data){
+								$data = JSON.parse(data); 
+								if($data.total==0){
+									$('#feedNotif').fadeOut();
+								}else if($data.total==1){
+									$('#feedInfo').html("1 New Feed");
+									$('#feedNotif').fadeIn();
+								}else{
+									$('#feedInfo').html($data.total+' new feeds'); 
+									$('#feedNotif').fadeIn();
+								}
+							  }, 
+					'location_id': $global_location_id } );
+				
+			}, 5000);
+			
+		});
+		</script>
+	</head>
+	
+	<body>			
+		<!-- Header -->
+		<?php
+			Statics::header(0);
+		?>
+			
+
+		<!-- Main -->
+			<div id="main-wrapper">
+				<div class="5grid-layout">				
+					
+					<div class="row">
+						<div class="bar 3u">							
+							<section>
+							<?php
+							if(isset($_SESSION['SessionData'])){
+								$username = $_SESSION['SessionData']['Username'];
+								$fullname = $_SESSION['SessionData']['Nama'];
+								$password = $_SESSION['SessionData']['Password'];
+								$imageURL = $_SESSION['SessionData']['URLFoto'];
+								
+								echo "
+								<script>
+									\$global_username = '$username';
+									\$global_name = '$fullname';
+									\$global_url = '$imageURL';
+									setInterval( function(){
+										getNewNotif();
+									}, 5000);
+								</script>
+								";
+							?>
+								
+								<h3>Welcome <?php echo $fullname;?>,</h3>
+								<div style="padding: 10px 0 10px 60px; border: 1px solid #eee;">
+									<a href="#"><img src="<?php echo $imageURL;?>" width="150px" height="180px" alt="" /></a>
+									<br /><br />
+									<span style="padding-left: 30px"><a href="controller.php?dispatch=keluar" class="button">Sign Out</a></span>
+								</div>
+							<?php } else{ ?>
+								<h3>Sign In</h3>
+								<form style="padding: 10px; border: 1px solid #eee" class="login" method="post" action="controller.php">
+									<input type="hidden" name="dispatch" value="masuk" />
+									<label for="username">Username :</label><br /> <input name="username" type="text" placeholder="Enter your username" autofocus><br />
+									<label for="password">Password</label><br /> <input name="password" type="password" placeholder="Password"><br />
+									<input type="submit" value="Sign In" class="button" /> 										
+									<div>
+										<br />
+										<a href="controller.php?dispatch=prareset-password" title="Reset Password" align="center">Reset Password</a>
+										<h1 style = "margin-top : 10px"> Don't have an account? </h1>
+										<a href="controller.php?dispatch=daftar-pengguna" class="button">Sign Up Now</a>
+									</div>
+								</form>
+							<?php } ?>
+							</section>
+							<br />
+							<section class="last">
+								<div style="padding: 10px; border: 1px solid #eee">
+								<h3>About Buku-Kuliah.com</h3>
+								<div align="justify">
+									Buku-Kuliah.com is the first website for lecture book lending and borrowing in Indonesia.					
+								</div>
+								<ul class="link-list">
+									
+								</ul>
+								</div>
+							</section>
+						</div>
+												
+						<div class="bar middle-bar">
+							<div class="9u mobileUI-main-content">						
+								<!-- Content -->
+									<article class="first">								
+						
+									<!-- Error message -->
+									<?php if(isset($_SESSION['halaman-utama.tpt']['message'])){ ?>
+										<div class="row">
+											<div class="12u">
+												<div class="error-box" style="padding:10px; height:80px">
+													<span><?php echo Statics::sanitize($_SESSION['halaman-utama.tpt']['message']); unset($_SESSION['halaman-utama.tpt']['message']); ?></span>
+												</div>
+											</div>
+										</div>
+									<?php }?>
+								
+									<!-- Halaman newsfeed -->
+									<div class="row" style="margin-top:20px">
+									<?php if(isset($_SESSION['SessionData'])){ ?>
+										Post your question here : <br />
+										<div style="border:1px solid #b1b2b3; margin-bottom:20px">
+											<div style="padding-right:3px">
+											<textarea  name="message" value="Your Message" id="message" placeholder="What's on your mind..."  onkeyup="countChars(200, 'message','characterCounter');" onkeydown="countChars(200, 'message','characterCounter');"></textarea>
+											</div>
+											<div style="background-color:#ddd; height:42px; padding:5px; margin-top:-21px">
+												<span id="formstatus"></span>
+												<a href="javascript:void(0)" class="button" style="float:right; line-height:20px" onclick="
+														if($('#message').val().length <10 || $('#message').val().length > 200){
+															$('#formstatus').html('Posting should have 10-200 characters');
+															$('#message').focus();
+																setTimeout(function(){
+																	$('#formstatus').html('');
+																}, 2000);
+															return false;
+														}
+														$('#formstatus').html('Posting...');
+														postFeed({
+															type:0, 
+															content:$('#message').val(), 															
+															location_id: $global_location_id,
+															callback: function(data){
+																$obj = JSON.parse(data);
+																if($obj.ok){
+																	$('#formstatus').html('Success.');
+																	$('#message').val('');
+																}else{
+																	$('#formstatus').html('Failed. Reason: '+$obj.message);
+																	if($obj.refresh){
+																		setTimeout(function(){window.location.reload()}, 1000);
+																	}
+																}
+																
+																$('#message').focus();
+																setTimeout(function(){
+																	$('#formstatus').html('');
+																}, 2000);
+															}
+														});">Post</a>												
+												<span id="characterCounter" style="font-size:12px; float:right; margin-right:10px; color:#00f"></span>
+											</div>
+											<script> countChars(200, 'message','characterCounter'); </script>
+										</div>
+										<?php }?>
+									</div>
+									
+									<!-- lokasi -->
+									<div>
+										<select id="lokasi">
+											<option value="0">All Location</option> 
+											<?php foreach($locations as $location){ ?>
+												<option value="<?php echo $location['id_lokasi'];?>"><?php echo $location['nama_lokasi']; ?></option>  
+											<?php } ?>     
+										</select>
+										<h2 id='location_info'></h2>
+									</div>	
+									
+									<div class="row">
+										<div class="12u">
+											<section class="thumbnails first last">
+												<div class="5grid">
+													<!-- This is one post -->
+													<div class="feedNotif" id="feedNotif" style="display:none"><a href="javascript:void(0)" onclick="getNewFeeds({ callback: function(data){$data = JSON.parse(data); displayFeed($data.data, $data.keys, true)}, location_id:$global_location_id });" id="feedInfo"></a></div>
+													<div class="feed"></div>
+													<div class="row">
+														<div class="divider"></div>
+													</div>
+													<!-- up here -->
+													
+													<div class="feedNotif"><a href="javascript:void(0)" id="moreFeeds" onclick="getFeeds({callback:function(data){$data = JSON.parse(data); if($data.keys.length > 0) { displayFeed($data.data, $data.keys, false)} else { $('#moreFeeds').html('No more feeds'); } }, total:10, location_id: $global_location_id});">More Feeds...</a></div>
+												</div>
+											</section>
+										</div>
+									</div>								
+								</article>	
+							</div>
+						</div>		
+						
+						<!-- Halaman chat -->
+						<div class="bar right-bar" style="padding-top: 20px;">
+							<div style="padding: 10px; border: 1px solid #eee">	
+							
+								<!-- Notifikasi -->
+								<?php if(isset($_SESSION['SessionData'])){ ?>
+								<h3><strong><img src="images/notifications.png" height="28px" width="28px" />&nbsp;&nbsp;Notification (<span id='totalNotif'>0</span>)</strong></h3><hr />
+								<div style="font-size:14px; line-height:28px; margin-left:10px" id="notif">
+								</div>
+								<br />
+								<?php } ?>
+								
+								<!-- Online Chat-->
+								<h3><strong>Online Chat</strong></h3>
+								<blockquote style="margin-top:-20px">Chat with another book lovers! </blockquote>
+								<blockquote style="margin-top:-10px">Remember the netiquette.</blockquote>
+								<div id="cboxdiv" style="text-align: center; line-height: 0; margin-top:10px">
+									<div><iframe frameborder="0" width="270" height="305" src="http://www4.cbox.ws/box/?boxid=4147436&amp;boxtag=1gql5&amp;sec=main" marginheight="2" marginwidth="2" scrolling="auto" allowtransparency="yes" name="cboxmain4-4147436" style="border:#ababab 1px solid;" id="cboxmain4-4147436"></iframe></div>
+									<div><iframe frameborder="0" width="270" height="75" src="http://www4.cbox.ws/box/?boxid=4147436&amp;boxtag=1gql5&amp;sec=form" marginheight="2" marginwidth="2" scrolling="no" allowtransparency="yes" name="cboxform4-4147436" style="border:#ababab 1px solid;border-top:0px" id="cboxform4-4147436"></iframe></div>
+								</div>
+							</div>
+						</div> 
+						
+					</div>
+				</div>
+			</div>
+		<!-- Footer -->
+		<?php
+			Statics::footer();
+		?>
+
+	</body>
+</html>

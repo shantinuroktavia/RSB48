@@ -1,0 +1,185 @@
+<?php
+	$scriptName = "lihat-feed.tpt";	
+	include_once("Statics.php");
+	
+	if(isset($_GET['id'])){	
+		$id = (int)$_GET['id'];
+		$message = isset($_SESSION[$scriptName][$id])&&isset($_SESSION[$scriptName][$id]['message'])?Statics::sanitize($_SESSION[$scriptName][$id]['message']):NULL;
+		unset($_SESSION[$scriptName][$id]['message']);
+		
+		//var_dump($_SESSION[$scriptName]);
+		if(!$_SESSION[$scriptName][$id] || count($_SESSION[$scriptName][$id]) === 0){
+			header("Location: controller.php?dispatch=lihat-feed&id=".$id);
+			exit(0);
+		}
+		$data = $_SESSION[$scriptName][$id];
+		$poster = $data['poster'];
+		$feed = $data['data'];
+		$commentaries = $data['commentaries'];
+		//var_dump($commentaries);exit(0);
+	}else{
+		header("Location: index.php");
+		exit(0);
+	} 
+	include_once("FeedManager.php");
+	$fm = new FeedManager();
+	$isFollowing = isset($_SESSION['SessionData'])&&($fm->isFollowing(array('id_user'=>$_SESSION['SessionData']['ID'], 'id_feed'=>$id)));
+?>
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<link rel="icon" type="image/png" href="images/logo.png" alt="logo">
+		<title>Feed Detail - Portal Online Pinjam Meminjam Buku</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700" rel="stylesheet" />
+		<noscript><link rel="stylesheet" href="css/5grid/core.css" /><link rel="stylesheet" href="css/5grid/core-desktop.css" /><link rel="stylesheet" href="css/5grid/core-1200px.css" /><link rel="stylesheet" href="css/5grid/core-noscript.css" /><link rel="stylesheet" href="css/style.css" /><link rel="stylesheet" href="css/style-desktop.css" /></noscript>
+		<script src="css/5grid/jquery.js"></script>
+		<script src="js/jquery.tools.min.js"></script>
+		<script src="js/jquery-ui.js"></script>
+		<script>
+			$global_name = 'Saya';
+			$timestamp = Math.round(new Date().getTime() / 1000);   // untuk mengambil feed baru (terupdate)
+			$lasttimestamp = Math.round(new Date().getTime() / 1000);  // untuk mengambil feed lama
+			$global_location_id = 1;
+			var notifData;
+		</script>
+		<script src="js/feed.js"></script>
+		<script src="css/5grid/init.js?use=mobile,desktop,1000px&amp;mobileUI=1&amp;mobileUI_theme=none&amp;mobileUI_titleBarHeight=60&amp;mobileUI_openerWidth=52"></script>
+		<!--[if IE 9]><link rel="stylesheet" href="css/style-ie9.css" /><![endif]-->
+		<script src="js/messaging.js"></script>
+		<!-- Notifikasi pesan -->
+		<script>
+			$(document).ready(function(){
+				getTotalNewMessages(document.getElementById("totalmsg"));
+				$("#language").selectbox();
+				setInterval(function(){
+					getTotalNewMessages(document.getElementById("totalmsg"));
+				}, 10000);
+			});
+		</script>
+		<link href="http://select-box.googlecode.com/svn/tags/0.2/jquery.selectbox.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="http://select-box.googlecode.com/svn/tags/0.2/jquery.selectbox-0.2.min.js"></script>
+	</head>
+	<body>
+
+
+		<!-- Header -->
+
+			<?php
+				Statics::header(9);
+			?>
+
+		<!-- Main -->
+
+			<div id="main-wrapper" class="subpage">
+				<div class="5grid-layout">
+					<div class="row">
+						<div class="9u">
+							<?php if($message){ ?>
+							<div class="row">
+								<div class="12u">
+									<div class="error-box" style="padding:10px; height:80px">
+										<span><?php echo $message; ?></span>
+									</div>
+								</div>
+							</div>
+							<?php } ?>
+							<article class="first">
+								<div id="leftcontainer">
+									<h2><img src="images/feed.png" width="48px" height="48px" valign="center"/>&nbsp;&nbsp;Single Feed Detail</h2>
+									<table "border="3" cellpadding="5" cellspacing="5"  style="border:1px solid #ddd; margin-bottom:10px">
+										<tr>
+											<td width="680" style="">
+												<img src="<?php echo $poster['url']; ?>" width="50px" height="60px" />
+												<span style="font-size:x-large"><?php echo "<a href='controller.php?dispatch=lihat-profil&user=${poster['username']}'>${poster['name']}</a>";?></span>
+												<span style="float:right" style="font-size:12px"><?php echo date('F d, Y H:i', strtotime($feed['time'])); ?></span>
+											</td>
+										</tr>
+										<?php if($isFollowing){ ?>
+										<tr>
+											<td width="680" style="">
+												<span style="font-size:13px"><?php echo "<a href='controller.php?dispatch=unfollow-feed&id=${feed['id_feed']}'>Unfollow Feed</a>";?></span>
+											</td>
+										</tr>
+										<?php } ?>
+										<tr>
+											<hr/>
+											<td width="680" style="background-color: #111; color:#eee; font-style: italic; word-wrap:break-word; "><?php echo $feed['content']; ?></span>
+												<span style="float:right" style="font-size:12px"></span>
+											</td>
+										</tr>
+										<?php if(count($commentaries) == 0) { ?>
+											<tr class='comm_<?php echo $feed['id_feed']; ?>_box' ></td>
+										<?php } 
+										foreach($commentaries as $comment) { 
+											$comm_poster = $comment['poster'];
+											$comm_data = $comment['data'];
+										?>
+											<tr class='comm_<?php echo $feed['id_feed']; ?>_box' >
+												<td width="680">
+													<div width="680" style="background-color: #eee; padding: 5px;  height:90px;">
+														<div style="width:60px; float:left;">
+															<img src="<?php echo $comm_poster['url']; ?>" width="30px" height="40px" />
+															<div style="font-size:12px; line-height:20px"><?php echo date('F d, Y H:i', strtotime($comm_data['time'])); ?></div>
+														</div>
+														<div style="font-size:14px; float:right; width: 580px;">
+															<?php echo "<a href='controller.php?dispatch=lihat-profil&user=${comm_poster['username']}'>${comm_poster['name']}</a>: ".Statics::sanitize($comm_data['content']); ?>
+														</div>
+														
+													</div>
+												</td>
+											</tr>
+										<?php } if(isset($_SESSION['SessionData'])){ 
+											$username = $_SESSION['SessionData']['Username'];
+											$fullname = $_SESSION['SessionData']['Nama'];
+											$imageURL = $_SESSION['SessionData']['URLFoto'];
+											echo "<script>
+													\$global_username = '$username';
+													\$global_name = '$fullname';
+													\$global_url = '$imageURL';
+												</script>";
+										?>
+										
+										<tr>
+											<td width="680">
+												<div class='comment_reply'>
+													<div style='margin-right:-4px'>
+														<textarea placeholder='Type your answer/comment here.' id='comment<?php echo $feed['id_feed']; ?>'></textarea>
+													</div>
+													<div class='comment_button' style='padding:5px'>
+														<a href='javascript:void(0)' onclick="postSingleComment({content: $('#comment<?php echo $feed['id_feed']; ?>').val(), parent:<?php echo $feed['id_feed']; ?>})" class='comm_close'>Post Comment</a>
+													</div>	
+												</div>
+											</td>
+										</tr>
+										<?php } ?>
+								   </table>
+								   <br />	
+								</div>
+							</article>							
+						</div>
+						<div class="3u">
+						<!-- Sidebar -->
+							<?php
+								Statics::sidebar();
+							?>
+						
+						</div>
+					</div>
+				</div>
+			</div>
+
+		<!-- Footer -->
+
+			
+		
+
+	</body>
+</html>
+
+<?php
+	unset($_SESSION[$scriptName]);
+?>

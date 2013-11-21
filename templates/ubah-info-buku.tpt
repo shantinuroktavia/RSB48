@@ -1,0 +1,197 @@
+<?php	
+	//mengimport class Statics
+	include_once("Statics.php");	
+	$scriptName = "ubah-info-buku.tpt";
+	$statics = new Statics();
+	
+	//Memeriksa session pengguna
+	if(!$_SESSION['SessionData']){
+		$_SESSION['halaman-utama.tpt']['message'] = "You're not authorized";
+		header("Location: index.php");
+		exit(0);
+	}
+	
+	if(isset($_GET['id'])){
+		$id = $_GET['id'];
+		if(!$_SESSION[$scriptName][$id]){
+			header("Location: controller.php?dispatch=ubah-info-buku&id=".$id);
+			exit(0);
+		}
+		$displayData = $_SESSION[$scriptName][$id];
+		
+	}else{
+		header("Location: controller.php?dispatch=lihat-profil");
+		exit(0);
+	}
+?>
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<link rel="icon" type="image/png" href="images/logo.png" alt="logo">
+		<title><?php echo $_SESSION['SessionData']['Nama']; ?>- Portal Online Pinjam-meminjam Buku Kuliah</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700" rel="stylesheet" />
+		<noscript>
+			<link rel="stylesheet" href="css/5grid/core.css" />
+			<link rel="stylesheet" href="css/5grid/core-desktop.css" />
+			<link rel="stylesheet" href="css/5grid/core-1200px.css" />
+			<link rel="stylesheet" href="css/5grid/core-noscript.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-desktop.css" />
+		</noscript>
+		<script src="css/5grid/jquery.js"></script>
+		<script src="js/jquery.tools.min.js"></script>
+		<script src="css/5grid/init.js?use=mobile,desktop,1000px&amp;mobileUI=1&amp;mobileUI_theme=none&amp;mobileUI_titleBarHeight=60&amp;mobileUI_openerWidth=52"></script>
+		<link rel="stylesheet" href="css/jRating.jquery.css" type="text/css" />
+		<script src="js/jRating.jquery.js"></script>
+		<script src="js/messaging.js"></script>
+		<script src="js/validator.js"></script>
+	  	<script>
+			$(document).ready(function(){
+				countChars(500, "Resensi", "characterCounter");
+				getTotalNewMessages(document.getElementById("totalmsg"));
+				setInterval(function(){
+					getTotalNewMessages(document.getElementById("totalmsg"));
+				}, 10000);
+			});
+		</script>
+	</head>
+	<body>
+
+
+		<!-- Header -->
+
+			<?php
+				Statics::header(8);
+			?>
+
+		<!-- Main -->
+
+
+			<div id="main-wrapper" class="subpage">
+				<div class="5grid-layout">
+					<div class="row">
+						<div class="9u">					
+							<!-- Content -->
+								<article class="first">
+									<?php if(isset($displayData['message'])){ ?>
+										<div class="row">
+											<div class="12u">
+												<div class="error-box">
+													<span><?php echo $displayData['message']; unset($displayData['message']); ?></span>
+												</div>
+											</div>
+										</div>
+									<?php }?>
+									
+									<!--- Menampilakn form ubah info buku-->
+									<h2>Edit book: <?php echo @Statics::sanitize($displayData['Judul']); ?></h2>					
+									<form action="controller.php" method="post" enctype="multipart/form-data">
+										<input type="hidden" name="dispatch" value="ubah-info-buku"/>
+										<input type="hidden" name="id" value="<?php echo $id ?>"/>
+										<input type="hidden" name="IDResensi" value="<?php echo $displayData["IDResensi"] ?>" />
+										
+										<table>
+											<tr>
+											<!--- judul buku-->
+											<td width="160px"><label for="username">Book Title*</label></td>
+											<td width="400px"><input type="text"  size="40" name="Judul" id="username" placeholder="Type the book title" value="<?php
+											//meng-unescape karakter khsuus
+											echo stripslashes(stripslashes(preg_replace("|\\\\r\\\\n|i","<br />",@$displayData['Judul']))); ?>" autofocus /></br></td>
+											</tr>
+											<tr>
+											<!--- edisi-->
+											<td><label for="author">Edition*</label></td>
+											<td><input type="text" name="Edisi" id="edition" placeholder="Enter the book edition, e.g. 6" value="<?php echo @$displayData['Edisi']; ?>" /></td>
+											</tr><tr>
+											<!--- penulis-->
+											<td><label for="author">Author*</label></td>
+											<td><input type="text" name="Pengarang" id="Pengarang" placeholder="Enter the book author" value="<?php echo stripslashes(stripslashes(preg_replace("|\\\\r\\\\n|i","<br />",@$displayData['Pengarang']))); ?>" /></td>
+											</tr><tr>
+											<!--- penerbit-->
+											<td><label for="publisher">Publisher*</label></td>
+											<td><input type="text" name="Penerbit" id="publisher" placeholder="Enter the book publisher" value="<?php echo stripslashes(stripslashes(preg_replace("|\\\\r\\\\n|i","<br />",@$displayData['Penerbit']))); ?>" /></br></td>
+											</tr><tr>
+											<!--- tahun terbit-->
+											<td><label for="year">Published Year*</label></td>
+											<td><input type="text" name="Th_Terbit" id="year" placeholder="Enter the book published year" value="<?php echo @$displayData['Th_Terbit']; ?>" /></td>
+											</tr><tr>
+											<!--- ketegori-->
+											<td><label for="category">Categories*</label></td>
+											<td>
+											 <select name="Kategori[]" id="select2" multiple>
+												<?php
+													$cats = $statics->getAllCategories(); 
+													foreach($cats as $cat){
+														if(in_array($cat['IDKategori'],@$displayData['Kategori']))
+															echo "<option value='${cat['IDKategori']}' selected>${cat['Nama_Kategori']}</option>";
+														else
+															echo "<option value='${cat['IDKategori']}'>${cat['Nama_Kategori']}</option>";
+													}
+												?>
+											  </select>
+											   <br><span style="font-size:12px">press ctrl + click the category for two or more categories </span>					
+											</td>
+											</tr><tr>
+											<!--- Tag buku-->
+											<td><label for="message">Tag*</label></td>
+											<td><input name="Tags" type="text" id="tag" placeholder="Separate with comma" value="<?php echo @$displayData['Tags']; ?>" /></td>
+											</tr><tr>
+											<td>
+											<!--- status buku-->
+											<td><input name="Status" type="checkbox" id="tag" value="1" <?php echo (!isset($displayData['Status']) || $displayData['Status']==1)?"checked='checked'":""; ?>/> <span style="font-size:12px; font-color:#0011FF">check if your book is not available</span></td>
+											</tr>
+											<tr>
+											<!--- Simple review-->
+											  <td style="vertical-align:top">Simple Review*</td>
+											  <td><textarea name="Resensi" id="Resensi" placeholder="Put some sentences to describe the book" style="width:380px" onkeyup="countChars(500, 'Resensi','characterCounter');" onkeydown="countChars(500, 'Resensi','characterCounter');" /><?php echo Statics::sanitize($displayData['Resensi']); ?></textarea>
+											  <br /><span id="characterCounter" style="font-size:12px; margin-top:-10px; float:right; color:#00f"></span></td>
+											</tr>
+										  <tr>
+										  <!--- foto buku-->
+											  <td><label>Photo*</label></td>
+											  <td  width="400px"><input id="picupload2" name="picture" type="file" />
+												<br><span style="font-size:12px">
+												Make sure that photo you're going to upload is less than equal- 100kb of size and having dimension of 800 x 640 pixels.
+											  Photo must be having extension of either .png, .jpg, .gif, or .bmp. </span></td>
+										   </tr><tr>
+											<td colspan="2" align="right"> 
+											<input class="button" type="submit" value="Save">
+											<input class="button" type="button" onclick="history.back()" value="Cancel"></td>
+											</tr>
+												
+										</table>
+										<p id="red">Fields signed (*) must be filled in.</p>
+										<div style="float:right; width:260px">
+										</div>
+									</form>
+
+								</article>							
+
+						</div>
+					<div class="3u">
+						
+							<!-- Sidebar -->
+							<?php
+								Statics::sidebar();
+							?>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		<!-- Footer -->
+			<?php
+				Statics::footer();
+			?>
+
+	</body>
+</html>
+<?php
+	//menghapus session
+	unset($_SESSION[$scriptName][$id]);
+?>

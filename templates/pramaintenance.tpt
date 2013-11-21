@@ -1,0 +1,119 @@
+<?php
+	//periksa session
+	if(!$_SESSION['SessionData'] || $_SESSION['SessionData']['isAdmin'] != 1){
+		$_SESSION['halaman-admin.tpt']['message'] = "You're not authorized";
+		header("Location: index.php");
+		exit(0);
+	}
+	//import class Statics untuk dapat menggunakan elemen-elemen yang statis
+	include_once("Statics.php");
+?>
+
+<!DOCTYPE HTML>
+<!--
+	Arcana 1.5 by HTML5 Up!
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<!-- HTML header-->
+	<!-- meliputi logo, judul dan path script-scipt jquery, javascript yang digunakan-->
+	<head>
+		<link rel="icon" type="image/png" href="images/logo.png" alt="logo">
+		<title>Reset Password - Portal Online Pinjam-meminjam Buku Kuliah</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700" rel="stylesheet" />
+		<noscript><link rel="stylesheet" href="css/5grid/core.css" /><link rel="stylesheet" href="css/5grid/core-desktop.css" /><link rel="stylesheet" href="css/5grid/core-1200px.css" /><link rel="stylesheet" href="css/5grid/core-noscript.css" /><link rel="stylesheet" href="css/style.css" /><link rel="stylesheet" href="css/style-desktop.css" /></noscript>
+		<script src="css/5grid/jquery.js"></script>
+		<script src="js/jquery.tools.min.js"></script>
+		<script src="css/5grid/init.js?use=mobile,desktop,1000px&amp;mobileUI=1&amp;mobileUI_theme=none&amp;mobileUI_titleBarHeight=60&amp;mobileUI_openerWidth=52"></script>
+		<!--[if IE 9]><link rel="stylesheet" href="css/style-ie9.css" /><![endif]-->
+		<link rel="stylesheet" href="css/jRating.jquery.css" type="text/css" />
+		<script src="js/jRating.jquery.js"></script>		
+		<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+		</head>
+	<body>
+
+
+		<!-- Header -->
+
+			<?php
+				Statics::header();
+			?>
+
+
+		<!-- Main -->
+			<!--- Untuk fitur mereset password-->
+			<div id="main-wrapper" class="subpage"> 
+				<div class="5grid-layout"> 
+					<div class="row"> 			
+						<div class="9u">
+							<?php 
+							if(isset($_SESSION['prareset-password.tpt']['message'])){?>
+								<div class="row">
+									<div class="12u">
+										<div style="margin: 0 auto;"class="error-box">
+											<span><?php echo $_SESSION['prareset-password.tpt']['message']; unset($_SESSION['prareset-password.tpt']['message']); ?></span>
+										</div>
+									</div>
+								</div>
+							<?php }?>
+							<!-- Content -->
+
+								<article class="first">
+								
+								<div class="row" style="float:left;">
+									<div class="12u">			
+										<div style="padding-left:220px">
+										<h3>Reset My Password</h3>	
+										</div>	
+										<div class="cta-box2" style="height:150px">
+											<form name="form1" method="post" action="controller.php">
+												<input type="hidden" name="dispatch" value="prareset-password" />
+												<!--- Meminta email untuk mengirim link reset password-->
+												<h3>Email:</h3>
+												<input Style="background-color: #fff;" type="text" name="Email" id="subject" value="<?php echo @$_SESSION['prareset-password.tpt']['Email']; ?>" placeholder="email goes here..." />
+												<div style="padding:10px; float:right">
+													<input type="submit" value="Send" class="button" />
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div id="resetbox">
+									<table>
+									<tr>	
+										<td><div class="circle" id="blue"></div></td>
+										<td><span style="vertical-align:middle">Enter your email</span></td>
+									</tr>
+									<tr>	
+										<td><div class="circle" id="grey"></div></td>
+										<td><span style="vertical-align:middle">Enter new password</span></td>
+									</tr>
+									</table>
+								</div> 
+											
+								</article>							
+						</div>
+						<div class="3u">
+						
+								<!-- Sidebar -->							
+								<?php
+									Statics::sidebar();
+								?>
+						
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+
+		<!-- Footer -->
+			<?php
+				Statics::footer();
+			?>
+
+	</body>
+</html>

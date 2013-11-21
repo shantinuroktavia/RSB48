@@ -1,0 +1,324 @@
+<?php
+	$scriptName = "lihat-profil-pengguna-lain.tpt";
+	//Memeriksa hak akses pengguna
+	if(!$_SESSION['SessionData']){
+		$_SESSION['halaman-utama.tpt']['message'] = "You're not authorized";
+		header("Location: index.php");
+		exit(0);
+	}
+	//Mengimport class Statics
+	include_once("Statics.php");
+	
+	//Memvalidasi pengguna untuk dapat menjalankan  funngsi lihat pengguna lian
+	if(isset($_GET['user'])){
+		$username = $_GET['user'];
+		if(!$_SESSION[$scriptName][$username]){
+			header("Location: controller.php?dispatch=lihat-profil&user=".$username);
+			exit(0);
+		}
+		//Menampilkan data pengguna lain
+		$displayData = $_SESSION[$scriptName][$username];
+	}else{
+		header("Location: controller.php?dispatch=lihat-profil");
+		exit(0);
+	}
+?>
+
+<!--DOCTYPE HTML-->
+<html>
+	<head>
+		<!-- Logo-->
+		<link rel="icon" type="image/png" href="images/logo.png" alt="logo">
+		<!-- Judul-->
+		<title><?php echo $displayData['Nama']; ?> - Portal Online Pinjam-meminjam Buku Kuliah</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!-- Font-->
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700" rel="stylesheet" />
+		<noscript><link rel="stylesheet" href="css/5grid/core.css" /><link rel="stylesheet" href="css/5grid/core-desktop.css" /><link rel="stylesheet" href="css/5grid/core-1200px.css" /><link rel="stylesheet" href="css/5grid/core-noscript.css" /><link rel="stylesheet" href="css/style.css" /><link rel="stylesheet" href="css/style-desktop.css" /></noscript>
+		<!-- Script jquery dan javascript-->
+		<script src="css/5grid/jquery.js"></script>
+		<script src="js/jquery.tools.min.js"></script>
+		<script src="css/5grid/init.js?use=mobile,desktop,1000px&amp;mobileUI=1&amp;mobileUI_theme=none&amp;mobileUI_titleBarHeight=60&amp;mobileUI_openerWidth=52"></script>
+		<link rel="stylesheet" href="css/jRating.jquery.css" type="text/css" />
+		<script src="js/jRating.jquery.js"></script>
+		<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+		<link rel="stylesheet" href="css/jquery-ui.css" type="text/css" />
+		<!-- untuk status inbox-->
+		<script src="js/messaging.js"></script>
+		<!-- Path ke javascript untuk validasi-->
+		<script src="js/validator.js"></script>
+		<!-- Scipt untuk fungsi-fungsi di sidebar-->
+	  	<script>
+			var url;
+			$(document).ready(function(){
+				$Subject = "<?php echo @$_SESSION[$scriptName][$username]['Subject']; ?>";
+				$Type= "<?php echo @$_SESSION[$scriptName][$username]['Type']; ?>";
+				$Isi_Keluhan = 	"<?php echo @$_SESSION[$scriptName][$username]['Isi_Keluhan']; ?>";
+				//$IDPenerima = 	"<?php echo @$_SESSION[$scriptName][$username]['IDPenerima']; ?>";
+				
+				$("#Subject").val($Subject);
+				$("#Type").val($Type);
+				$("#Isi_Keluhan").val($Isi_Keluhan);
+				//$("#IDPenerima").val($IDPenerima);
+				
+				<?php if (isset($_SESSION[$scriptName][$username]['showBox'])) { ?>
+				setTimeout(function(){
+					showComplaintBox();
+				}, 1500);
+				<?php } ?>
+				
+				<?php if (isset($_SESSION[$scriptName][$username]['Type']) == 1) { ?>
+				$($('#Type option')[1]).attr('selected', true); 
+				<?php } else {?>
+				$($('#Type option')[0]).attr('selected', true); 
+				<?php }?>				
+				$("#Subject").autocomplete({
+					source: function( request, response ) {
+						url = "servers/usernames.php?term=" + request.term; 
+						$.getJSON(url + '&callback=?', function(data) {
+							response(data);
+						});
+					}
+				});
+				
+				countChars(500, "Isi_Keluhan", "characterCounter");
+				//total pesan baru
+				getTotalNewMessages(document.getElementById("totalmsg"));
+				//inetrval cek pesan baru
+				setInterval(function(){
+					getTotalNewMessages(document.getElementById("totalmsg"));
+				}, 10000);
+			});
+		</script>
+	</head>
+	<body>
+		<!-- Header -->
+		<?php
+			Statics::header(1);
+		?>
+
+		<!-- Main -->
+		<div id="light" class="white_content" style="display:none">
+		<!-- Kotak Dialog untuk memeberikan keluhan-->
+			<div><a href="javascript:void(0)" onclick = "closeLightBox();">[X]</a></div>
+			<div class="lightbox_ct">
+				<h2>AIR YOUR COMPLAINT</h2>
+				<span>Give your complaint here, whether it's about system or user's behavior.</span>
+				<br/>
+				<span>Just tell us!</span>
+				<form action="controller.php" name="" method="post">
+					<input type="hidden" name="dispatch" value="keluhan" />
+					<ul class="comp">		
+						<li><label>Category</label></li>
+						<li>
+						<!-- Tipe Keluhan-->
+							<select name="Type" id="Type">
+								<option value="0">System's Bug</option>
+								<option value="1">User's Behavior</option>
+							</select>
+						</li>
+						<!-- Subjcet Keluhan-->
+						<li> <label>Subject</label></li>
+						<li> 
+							<input type="text" id="Subject" name="Subject" style="background:#fff" placeholder="Specify your subject here" required/>
+						</li>
+						<li> <label>Complaint</label></li>
+						<li> 
+							<!-- Text area untuk isi keluhan-->
+							<textarea  name="Isi_Keluhan" id="Isi_Keluhan"  style="background-color:#fff" onkeyup="countChars(500, 'Isi_Keluhan','characterCounter');" onkeydown="countChars(500, 'Isi_Keluhan','characterCounter');" placeholder="Type your complaint here"></textarea>
+							<br /><span id="characterCounter" style="font-size:12px; margin-top:-18px; float:right; color:#00f"></span>
+							<br />
+						<li> <input type="submit" class="button" value="Submit" style="float:right; margin-top:10px"/></li>
+					</ul>
+				</form>
+			</div>
+		</div>
+		<div id="fade" class="black_overlay" style="display:none"></div>
+							
+
+		<div id="main-wrapper" class="subpage">
+			<div class="5grid-layout">
+				<div class="row">
+				<!-- Mwmeriksa session dari pengguna-->
+				
+				<!-- jika tidak memiliki session tampilkan halamn utama untuk login-->
+				<?php if(!isset($_SESSION['SessionData'])){ ?>
+				<div class="3u">
+						<section>
+								<h3>Sign In</h3>
+								<form style="padding: 10px; border: 1px solid #eee" class="login" method="post" action="controller.php">
+									<input type="hidden" name="dispatch" value="masuk" />
+									<label for="username">Username :</label><br /> <input name="username" type="text" placeholder="Enter your username" autofocus><br />
+									<label for="password">Password</label><br /> <input name="password" type="password" placeholder="Password"><br />
+									<input type="submit" value="Sign In" class="button" />
+									
+									<div>
+										<br />
+										<a href="controller.php?dispatch=prareset" title="Reset Password" align="center">Reset Password</a>
+										<h1 style = "margin-top : 10px"> Don't have an account? </h1>
+										<a href="controller.php?dispatch=daftar-pengguna" class="button">Sign Up Now</a>
+									</div>
+								</form>
+							</section>
+							<br />
+							<section class="last">
+								<div style="padding: 10px; border: 1px solid #eee">
+								<h3>About Buku-Kuliah.com</h3>
+								<div align="justify">
+									Buku-Kuliah.com is the first website for lecture book lending and borrowing in Indonesia.						
+								</div>
+								<ul class="link-list">
+									
+								</ul>
+								</div>
+							</section>
+					
+					</div>
+				<?php }?>
+				
+					<div class="9u">	
+						<!--Jika terotentikasi -->					
+						<?php if(isset($_SESSION[$scriptName][$username]['message'])){?>
+							<div class="row">
+								<div class="12u">
+									<div class="error-box">
+										<span><?php echo $_SESSION[$scriptName][$username]['message']; unset($_SESSION[$scriptName][$username]['message']); ?></span>
+									</div>
+								</div>
+							</div>
+						<?php }?>
+
+					
+						<!-- Content -->
+
+							<article class="first">
+								
+								<div id="leftcontainer">
+								<h2 style="padding-top:20px"><?php echo $displayData['Nama']; ?>'s Details</h2>
+								<h4><?php 
+								//Meng-unescape karakter simbol
+								echo stripslashes(stripslashes($displayData['Deskripsi'])); ?></h4>											<table>
+											<tr>
+											<td style="padding-top:20px"><img src="<?php echo $displayData['URLFoto']; ?>" width="150px" height="180px" alt="" /></td>
+											<!-- Menampilkan informasi pengguna-->
+											<td><table>
+													<tr>
+													<td>
+													<!-- Nama-->
+													<label for="name">Name</label></td>
+													<td><?php echo $displayData['Nama'];?></td>
+													</tr><tr>
+													<!-- Email-->
+													<td><label>E-mail</label></td>
+													<td><?php echo $displayData['Email'];?></td>
+													</tr><tr>
+													<!-- Lokasi-->
+													<td><label>Location</label></td>
+													<td><?php echo $displayData['Lokasi'];?></td>
+													</tr><tr>
+													<!-- Reputasi-->
+													<td style="vertical-align:top"><label for="location" >Reputation</label></td>
+													<td>
+															<div class="exemple">
+																	<div class="basic" data="<?php echo $displayData['Reputasi'];?>_<?php echo -1*($displayData['ID']);?>"></div>
+															</div>
+															<script type="text/javascript">
+															  $(".basic").jRating({
+																	<?php 
+																	//fungsi agar hanya dapat sekali saja memberikan reputasi
+																	if(isset($displayData['canRate']) && $displayData['canRate'])
+																				echo "isDisabled : false,";
+																		else
+																			echo "isDisabled : true,";
+																	 ?>
+																	 onSuccess : function(){
+																	 <!-- Status pemberian reputasi-->
+																	   $("#status").html("<em>Your rate has been saved</em>");
+																	   setTimeout(function(){window.location = "controller.php?dispatch=lihat-profil&user=<?php echo $displayData['Username'];?>"}, 2000);
+																	 }
+																});
+															</script>
+													</td>
+													</tr>
+													<tr>
+													<td></td><td><span style="font-size:12" id="status"></span></td>
+													</tr>
+											</table></td>
+											</tr>
+										</table>
+											
+								<!-- Fungsi untuk menu kirim pesan-->
+								<?php if(isset($_SESSION['SessionData'])){ ?>                        
+										<div style="padding:10px; float:right">
+											<!-- Memanggil controller untuk menjalankan fungsi kirim pesan-->
+											<a href="controller.php?dispatch=kirim-pesan&user=<?php echo $displayData['Username'];?>" class="button">Send Message</a>
+										</div>
+								<?php } ?>
+																
+								<!-- Untuk menampilkan daftar buku-->
+								<p>&nbsp;</p><p>&nbsp;</p>
+								<h2><?php echo $displayData['Nama']; ?>'s Book Collection</h2>
+								<table width="820px">
+									<tr style="background-color:#eee">
+										<td>&nbsp;&nbsp;&nbsp;</td>
+										<td><label for="username">No</label></td>
+										<td><label for="name">Title</label></td>
+										<td><label for="email">Status</label></td>
+										<td><label for="location">Author</label></td>
+									</tr>	
+									<?php 
+									// Apabila tidak ada buku di daftar
+									if(count($displayData['books']) == 0){?>
+										<tr style="background-color:#eee">
+										<td colspan="5">Wow, no books.</td>
+									</tr>
+									<?php }else{
+									//Apabila ada buku yang dimiliki pengguna
+											$counter = 1;
+											//menampilkan detail buku
+											foreach($displayData['books'] as $book){
+												$id = $book['IDBuku'];
+												$title = stripslashes(stripslashes($book['Judul'])).", ed.".$book['Edisi'];
+												$status = $book['Status']== 0?"Vacant":"Engaged";
+												$author = stripslashes(stripslashes($book['Pengarang']));
+									?>
+												<tr style="">
+													<td></td>
+													<td><?php echo $counter++; ?></td>
+													<td><a href="controller.php?dispatch=info-buku&id=<?php echo $id ?>"><?php echo $title ?></a></td>
+													<td><?php echo $status ?></td>
+													<td><?php echo $author ?></td>
+												</tr>
+									<?php 	}
+									   } ?>
+								</table>
+								</table>
+								</div>
+							</article>							
+					</div>
+						<?php if(isset($_SESSION['SessionData'])){ ?>
+						
+					<div class="3u">						
+						<!-- Sidebar -->	
+						<?php
+							Statics::sidebar($displayData);
+						?>
+					</div>
+						<?php } ?>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Footer -->
+		<?php
+			Statics::footer();
+		?>
+	</body>
+</html>
+
+<?php
+	//menghapus session
+	unset($_SESSION[$scriptName][$username]);
+?>
