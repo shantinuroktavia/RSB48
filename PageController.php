@@ -54,7 +54,7 @@
 							PageController::load("halaman-utama.tpt", array("message"=>"We are now conducting alpha testing. Come back here later."));
 						}
 						PageController::setSessionData($p);
-						if($p['isAdmin'] == 1){
+						if($p['isAdmin'] == 1 || $p['isAdmin'] == 2){
 							PageController::load("halaman-admin.tpt", array("message"=>"Login Success", "data"=>$p));
 							$_SESSION['SessionData']['token'] = PageController::getRandomChars(20);
 						}else
@@ -66,7 +66,6 @@
 					}else if($authData['status'] == BLOCKED){
 						PageController::load("halaman-utama.tpt", array("message"=>"Your account is temporarily blocked until ${authData['to']} for reason: ${authData['reason']}"));
 					}
-					
 				}else if($action == "keluar"){
 					PageController::setSessionData();
 					PageController::load("halaman-utama.tpt", array("message"=>"Logout success"));
@@ -244,7 +243,7 @@
 						$userInfo = $temp->fetch_assoc();
 						$hash = PageController::getRandomChars(20);
 						$data = array("ID"=>$userInfo['ID'], "Hash"=>$hash, "Expire_Time"=>date("Y-m-d H:i:s", strtotime("+10 minutes")));
-						$recoveryLink = "http://buku-kuliah.com/betalive/controller.php?dispatch=validasi-email&hash=$hash";
+						$recoveryLink = "controller.php?dispatch=validasi-email&hash=$hash";
 						//var_dump($data);exit(0);
 						$pm->savePasswordRecoveryData($data);
 						$to     = $email;

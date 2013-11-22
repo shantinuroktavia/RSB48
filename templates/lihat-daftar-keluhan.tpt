@@ -1,7 +1,7 @@
 <?php
 	include ("Keluhan.php");
 	$scriptName = "lihat-daftar-keluhan.tpt";
-	if(!$_SESSION['SessionData'] || $_SESSION['SessionData']['isAdmin'] != 1){
+	if(!$_SESSION['SessionData'] || ($_SESSION['SessionData']['isAdmin'] != 1 && $_SESSION['SessionData']['isAdmin'] != 2)){
 		$_SESSION['halaman-utama.tpt']['message'] = "You're not authorized";
 		header("Location: index.php");
 		exit(0);
@@ -64,6 +64,8 @@
 							<article class="first">
 								<h2>Complaint List</h2><hr /><br />
 								<div id="leftcontainer"width="800px">
+									<?php if($_SESSION['SessionData']['isAdmin'] == 2){ ?>
+
 									<h3>Complaint About System</h3><hr /><br />
 									<table style="margin: 0 auto;" width="820px">
 										<tr style="background:#eee; font-size:20px">
@@ -72,31 +74,31 @@
 											<td style="text-align:left;" width="120px">TIME</td>
 											<td style="text-align:left;" width="400px">REPORT</td>
 											<td style="text-align:left;" width="100px">STATUS</td>
-											
 										</tr>
 									</table>							
 									<div style="height:<?php echo min(500, max(100, (int)count($complaints)*150/2));?>px; overflow:auto;" width="800px">
-									<table style="margin: 0 auto; margin-bottom:40px; border-left:1px #eee solid;" width="800px">
+										<table style="margin: 0 auto; margin-bottom:40px; border-left:1px #eee solid;" width="800px">
 										<?php 
 											foreach($complaints as $complaint){
 											//var_dump($complaint); exit(0);
 												if($complaint->type == 0){
 										?>
-										<tr height="0px">
-											<td style="text-align:left;" width="80px"><?php $id = $complaint->complaintId;  echo $id; ?></td>
-											<td style="text-align:left;" width="100px"><a href="controller.php?dispatch=lihat-profil&user=<?php echo $complaint->complainantUsername; ?>"><?php echo $complaint->complainantName ?></a></td>
-											<td style="text-align:left;" width="120px"><?php echo date("d F Y, h:m", strtotime($complaint->time)); ?></td>
-											<td style="text-align:left;" width="400px"><?php echo "<a href='controller.php?dispatch=lihat-keluhan&id=$id'>".Statics::sanitize(preg_replace("/^(([^\s]+\s+){10}).*$/","$1", $complaint->content))."</a>"; ?></td>
-											<?php echo $complaint->solved?"<td class='solved' width='100px'>Solved</td>":"<td class='not_solved' width='100px'>Not solved</td>"; ?>
-										</tr>	
-										<?php } } ?>
-									</table>
-									<hr/>
+											<tr height="0px">
+												<td style="text-align:left;" width="80px"><?php $id = $complaint->complaintId;  echo $id; ?></td>
+												<td style="text-align:left;" width="100px"><a href="controller.php?dispatch=lihat-profil&user=<?php echo $complaint->complainantUsername; ?>"><?php echo $complaint->complainantName ?></a></td>
+												<td style="text-align:left;" width="120px"><?php echo date("d F Y, h:m", strtotime($complaint->time)); ?></td>
+												<td style="text-align:left;" width="400px"><?php echo "<a href='controller.php?dispatch=lihat-keluhan&id=$id'>".Statics::sanitize(preg_replace("/^(([^\s]+\s+){10}).*$/","$1", $complaint->content))."</a>"; ?></td>
+												<?php echo $complaint->solved?"<td class='solved' width='100px'>Solved</td>":"<td class='not_solved' width='100px'>Not solved</td>"; ?>
+											</tr>	
+											<?php } } ?>
+										</table>
+										<hr/>
 									</div>
-									
-									<h3>Complaint About Users</h3><hr/><br />																	
-									<table style="margin: 0 auto;" width="820px">
-									
+
+									<?php } elseif ($_SESSION['SessionData']['isAdmin'] == 1) { ?>
+
+									<h3>Complaint About Users</h3><hr/><br />
+									<table style="margin: 0 auto;" width="820px">								
 										<tr style="background:#eee; font-size:20px">
 											<td style="text-align:center;" width="80px">ID</td>
 											<td style="text-align:left;"width="100px">COMPLAINANT</td>
@@ -125,7 +127,10 @@
 										<?php } } ?>
 									</table>
 									<hr/>
-									</div>								
+									</div>	
+
+									<?php } ?>
+
 								</div>	
 							</article>							
 					</div>

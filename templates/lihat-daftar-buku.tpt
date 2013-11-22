@@ -1,5 +1,5 @@
 <?php
-	if(!$_SESSION['SessionData'] || $_SESSION['SessionData']['isAdmin'] != 1){
+	if(!$_SESSION['SessionData'] || $_SESSION['SessionData']['isAdmin'] != 2){
 		$_SESSION['halaman-utama.tpt']['message'] = "You're not authorized";
 		header("Location: index.php");
 		exit(0);

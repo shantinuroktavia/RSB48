@@ -138,7 +138,7 @@ END;
 		}
 		//Header ada beberapa tipe
 		public static function header($current = 0){
-		$isAdmin = isset($_SESSION['SessionData']) && $_SESSION['SessionData']['isAdmin'] == 1;
+		$isAdmin = isset($_SESSION['SessionData']) && ($_SESSION['SessionData']['isAdmin'] == 1 || $_SESSION['SessionData']['isAdmin'] == 2);
 		$isUser = isset($_SESSION['SessionData']) && $_SESSION['SessionData']['isAdmin'] == 0;
 		$currentItem = array(0=>"",1=>"",2=>"");
 		$currentItem[$current] = "class='current_page_item'";
