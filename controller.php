@@ -129,8 +129,8 @@
 	}else if($action == "kirim-pesan"){
 		if(PageController::getSessionData()){
 			$data = $_POST;
-$_POST['subject'] = preg_replace("|\s+|"," ", trim($_POST['subject']));
-$_POST['content'] = preg_replace("|[ ]+|"," ", trim($_POST['content']));
+			$_POST['subject'] = preg_replace("|\s+|"," ", trim($_POST['subject']));
+			$_POST['content'] = preg_replace("|[ ]+|"," ", trim($_POST['content']));
 			if(isset($_POST['to']) && isset($_POST['subject']) && isset($_POST['content'])){
 				if(strlen($_POST['subject']) < 5 || strlen($_POST['subject']) > 30){
 					$data["message"] = "Subject length must be 5-30 non-whitespace characters";
@@ -574,7 +574,7 @@ $_POST['content'] = preg_replace("|[ ]+|"," ", trim($_POST['content']));
 		}
 	}else if($action == "hapus-pengguna"){
 		$sessionData = PageController::getSessionData();
-		if($sessionData && $sessionData['isAdmin']==1){
+		if($sessionData && $sessionData['isAdmin']==2){
 			if($_POST['token'] != $_SESSION['SessionData']['token']){
 				PageController::load("halaman-utama.tpt", array("message"=>"Invalid Token. Make sure you have been authorized."));
 			}
@@ -630,14 +630,14 @@ $_POST['content'] = preg_replace("|[ ]+|"," ", trim($_POST['content']));
 		}
 	}else if($action == "lihat-daftar-keluhan"){
 		$sessionData = PageController::getSessionData();
-		if($sessionData && $sessionData['isAdmin']==1){
+		if($sessionData && ($sessionData['isAdmin']==1 || $sessionData['isAdmin']==2)) {
 			PageController::dispatch("lihat-daftar-keluhan", true);
 		}else{
 			PageController::load("halaman-utama.tpt", array("message"=>"You aren't authorized"));
 		}
 	}else if($action == "blokir-pengguna"){
 		$sessionData = PageController::getSessionData();
-		if($sessionData && $sessionData['isAdmin']==1){
+		if($sessionData && $sessionData['isAdmin']==2){
 			//var_dump($_POST);
 			$data = $_POST;
 			unset($data['dispatch']);
@@ -648,7 +648,7 @@ $_POST['content'] = preg_replace("|[ ]+|"," ", trim($_POST['content']));
 		}
 	}else if($action == "lihat-keluhan"){
 		$sessionData = PageController::getSessionData();
-		if($sessionData && $sessionData['isAdmin']==1 && $_GET){
+		if($sessionData && ($sessionData['isAdmin']==1 || $sessionData['isAdmin']==2) && $_GET){
 			$data = array('IDKeluhan'=>$_GET['id']);
 			PageController::dispatch($action, $data);
 		}else{
@@ -671,7 +671,7 @@ $_POST['content'] = preg_replace("|[ ]+|"," ", trim($_POST['content']));
 		}
 	}else if($action == "solve-keluhan"){
 		$sessionData = PageController::getSessionData();
-		if($sessionData && $sessionData['isAdmin']==1 && $_GET){
+		if($sessionData && ($sessionData['isAdmin']==1 || $sessionData['isAdmin']==2) && $_GET){
 			$data = array('IDKeluhan'=>$_GET['id']);
 			PageController::dispatch($action, $data);
 		}else{
@@ -679,7 +679,7 @@ $_POST['content'] = preg_replace("|[ ]+|"," ", trim($_POST['content']));
 		}
 	}else if($action == "hapus-keluhan"){
 		$sessionData = PageController::getSessionData();
-		if($sessionData && $sessionData['isAdmin']==1 && $_GET){
+		if($sessionData && ($sessionData['isAdmin']==1 || $sessionData['isAdmin']==2) && $_GET){
 			$data = array('IDKeluhan'=>$_GET['id']);
 			PageController::dispatch($action, $data);
 		}else{

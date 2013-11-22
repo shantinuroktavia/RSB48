@@ -1,7 +1,7 @@
 <?php
 	include ("Keluhan.php");
 	$scriptName = "lihat-daftar-keluhan.tpt";
-	if(!$_SESSION['SessionData'] || ($_SESSION['SessionData']['isAdmin'] != 1 && $_SESSION['SessionData']['isAdmin'] != 2)){
+	if(!$_SESSION['SessionData'] || ($_SESSION['SessionData']['isAdmin'] != 1 && $_SESSION['SessionData']['isAdmin'] != 2)) {
 		$_SESSION['halaman-utama.tpt']['message'] = "You're not authorized";
 		header("Location: index.php");
 		exit(0);
@@ -23,7 +23,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
-		<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700" rel="stylesheet" />
+		<!-- <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700" rel="stylesheet" /> -->
 		<link rel="stylesheet" href="css/style.css" />
 		<noscript><link rel="stylesheet" href="css/5grid/core.css" /><link rel="stylesheet" href="css/5grid/core-desktop.css" /><link rel="stylesheet" href="css/5grid/core-1200px.css" /><link rel="stylesheet" href="css/5grid/core-noscript.css" /><link rel="stylesheet" href="css/style-desktop.css" /></noscript>
 		<script src="css/5grid/jquery.js"></script>
@@ -64,7 +64,7 @@
 							<article class="first">
 								<h2>Complaint List</h2><hr /><br />
 								<div id="leftcontainer"width="800px">
-									<?php if($_SESSION['SessionData']['isAdmin'] == 2){ ?>
+									<?php if($_SESSION['SessionData']['isAdmin'] == 1){ ?>
 
 									<h3>Complaint About System</h3><hr /><br />
 									<table style="margin: 0 auto;" width="820px">
@@ -95,7 +95,7 @@
 										<hr/>
 									</div>
 
-									<?php } elseif ($_SESSION['SessionData']['isAdmin'] == 1) { ?>
+									<?php } elseif ($_SESSION['SessionData']['isAdmin'] == 2) { ?>
 
 									<h3>Complaint About Users</h3><hr/><br />
 									<table style="margin: 0 auto;" width="820px">								

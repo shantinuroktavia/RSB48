@@ -114,14 +114,14 @@
 										<section class="thumbnails first last">
 											<div class="5grid">
 												<div class="row">
-													<?php if($_SESSION['SessionData']['isAdmin'] == 1) { ?>
+													
 														<div class="4u">
 															<div class="thumbnail first">	
 																<a href="controller.php?dispatch=lihat-daftar-keluhan"><img src="uploads/complaint.png" alt="" width="92" height="122"/></a>
 																<a href="controller.php?dispatch=lihat-daftar-keluhan">COMPLAINTS LIST</a>
 															</div>
 														</div>
-													<?php } elseif ($_SESSION['SessionData']['isAdmin'] == 2) { ?>
+													<?php if($_SESSION['SessionData']['isAdmin'] == 2) { ?>
 														<div class="4u">
 															<div class="thumbnail first">	
 																<a href="controller.php?dispatch=lihat-daftar-pengguna"><img src="uploads/sitask.png" alt="" width="92" height="122"/></a>
