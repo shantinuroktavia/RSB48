@@ -63,6 +63,7 @@ INSERT INTO `aktor_sistem` (`ID`, `isAdmin`, `Username`, `Nama`, `Email`, `Passw
 (27, '0', 'Amalia', 'Maghfirotul Amalia', 'maghfirotul_amalia@yahoo.com', 'e37ca159d47db7d4e32eaa425eb10dfb', '7', 0, 'I am...', NULL, NULL, NULL, 'uploads/Amalia-img1.jpg', 0, 0),
 (21, '0', 'lololala', 'Galang Rambo Anarki', 'lrigvrkr@sharklasers.com', '9aaaab6cb0a3e03a7e2995257b561774', '22', 4, '																																																																																											saya adalah lolo																																																																																				', NULL, NULL, NULL, 'uploads/JKC6tUHcqOgzM2ixeV8x.jpg', 0, 3),
 (4, '0', 'firliasandyta', 'Firlia Sandyta', 'firliasandyta@gmail.com', 'd0674e8ba7edb51e20dd146490ea8dde', '7', 19, '													Ilmu Komputer UI												', NULL, NULL, NULL, 'uploads/mEKwLNqfIhMBMDV2RctG.jpg', 0, 1),
+(40, '2', 'admin_vini', 'Admin Vini', 'viniagrameizi@gmail.com', '68f32b150814dd2ae4313d0f9a5bfdeb', '7', 0, '', NULL, NULL, NULL, 'uploads/viniagrameizi-DSC03572.JPG', 0, 0),
 (29, '0', 'mawarmelati', 'Mawar Melati', 'gvabtowz@sharklasers.com', 'fcea920f7412b5da7be0cf42b8c93759', '1', 7, 'Saya adalah mahasiswa Ilmu Komputer yang sangat suka maen komputer																																																																																												', NULL, NULL, NULL, 'uploads/mawarmelati-akhwat tangguh.jpeg', 0, 1);
 
 -- --------------------------------------------------------
