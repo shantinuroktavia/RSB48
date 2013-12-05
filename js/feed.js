@@ -71,22 +71,7 @@ function displayFeed($data, $keys, $before){  // jika $before==true, feed dileta
 		$commentaries = $($obj.commentaries);
 		$n = $commentaries.length;
 		
-		$feed += "<div class='feed' style='display:none'>
-			<div class='4u'>
-				<div class='thumbnail'>
-					<a href='controller.php?dispatch=lihat-profil&user="+$posterUsername+"'>
-						<img src='"+$imageUrl+"' alt='' width='46' height='61'/>
-					</a>
-					<cite><strong>
-						<a href='controller.php?dispatch=lihat-profil&user="+$posterUsername+"'>"+$posterName+"</a>
-					</strong>"+$time+" says:</cite>
-					<blockquote>"+$content+"</blockquote>
-				</div>
-
-				<div class='link_bar'>
-					<a class='fb' href='javascript:void(0)' onclick='fb_publish({title:\"Buku-Kuliah.com - Portal Online Pinjam Meminjam Buku Kuliah\", caption:\""+$global_name+" membagi satu feed dari Buku-Kuliah.com\", description:\""+$posterName+" says: "+$content.replace(/\'/g, "\"").replace(/\"/g, "\\\"")+"\", parent: \""+$keys[$i]+"\" ,url:\"http://buku-kuliah.com/betalive\"})'>
-						<img src='images/fb_share.png' alt='' width='100' height='30'/>
-					</a>&nbsp;&nbsp;&nbsp;"+getTwitterButton($posterName+" says: "+$content)+"<div style='font-size:12px; color:#45d; margin-top:-10px' id='fb"+$keys[$i]+"'></div><a href='javascript:void(0)' onclick='showComment(\"comm_box"+$keys[$i]+"\")' class='comm_close' style='float:right; padding-right:20px'>See Comment ("+$n+")</a></div><div id='notif"+$keys[$i]+"' style='display: hidden'></div> <br /><div class='comm_box' id='comm_box"+$keys[$i]+"' style='display:none; margin-left:20px'><div class='comm_other'><table>";
+		$feed += "<div class='feed' style='display:none'><div class='4u'><div class='thumbnail'><a href='controller.php?dispatch=lihat-profil&user="+$posterUsername+"'><img src='"+$imageUrl+"' alt='' width='46' height='61'/></a><cite><strong><a href='controller.php?dispatch=lihat-profil&user="+$posterUsername+"'>"+$posterName+"</a></strong>"+$time+" says:</cite><blockquote>"+$content+"</blockquote></div><div class='link_bar'><a class='fb' href='javascript:void(0)' onclick='fb_publish({title:\"Buku-Kuliah.com - Portal Online Pinjam Meminjam Buku Kuliah\", caption:\""+$global_name+" membagi satu feed dari Buku-Kuliah.com\", description:\""+$posterName+" says: "+$content.replace(/\'/g, "\"").replace(/\"/g, "\\\"")+"\", parent: \""+$keys[$i]+"\" ,url:\"http://buku-kuliah.com/betalive\"})'><img src='images/fb_share.png' alt='' width='100' height='30'/></a>&nbsp;&nbsp;&nbsp;"+getTwitterButton($posterName+" says: "+$content)+"<div style='font-size:12px; color:#45d; margin-top:-10px' id='fb"+$keys[$i]+"'></div><a href='javascript:void(0)' onclick='showComment(\"comm_box"+$keys[$i]+"\")' class='comm_close' style='float:right; padding-right:20px'>See Comment ("+$n+")</a></div><div id='notif"+$keys[$i]+"' style='display: hidden'></div> <br /><div class='comm_box' id='comm_box"+$keys[$i]+"' style='display:none; margin-left:20px'><div class='comm_other'><table>";
 				
 		for($j=0; $j<$n; $j++){	
 			$temp_name = $commentaries[$j].poster_name;
@@ -138,8 +123,6 @@ function postComment($data){
 					"<tr class='"+$class_name+" comment' style='display:none'><td class='comm un' style='font-size:15px; font-weight:bolder'><img src='"+$poster_url+"' alt='' width='46' height='61'/> </td><td class='comm ctn' style='line-height:16px; padding:4px'><a href='controller.php?dispatch=lihat-profil&user="+$poster_username+"' style='color:#78b9b9; font-weight:bolder'>"+$poster_name+"</a><span style='float:right'>"+$time+"</span><br/> <span class='comment_content'>"+$content+"</span></td></tr> ");
 				setTimeout(function(){$("."+$class_name).last().fadeIn();}, 1000);
 				$("#comment"+$parent).focus();
-
-				//++ num comment
 			}else{
 				$("."+$class_name).last().after(
 					"<tr class='"+$class_name+" comment_error'><td class='comm un' style='font-size:15px; font-weight:bolder'></td><td class='comm ctn' style='line-height:16px; padding:4px'><span style='float:right'>"+$time+"</span><br/> <span style='text-align:justify; color:#700'>Failed. Reason: "+$obj.message+"</span></td></tr> ");

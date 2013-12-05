@@ -33,7 +33,11 @@
 		
 	}else{
 	//Menampilkan header untuk halaman lihat keluhan
-		header("Location: controller.php?dispatch=lihat-daftar-keluhan");
+		if($_SESSION['SessionData']['isAdmin'] == 1){
+			header("Location: controller.php?dispatch=lihat-daftar-keluhan-sistem");
+		} else if($_SESSION['SessionData']['isAdmin'] == 2){
+			header("Location: controller.php?dispatch=lihat-daftar-keluhan-moderator");
+		}
 		exit(0);
 	} 
 	//Mengimport class Statics

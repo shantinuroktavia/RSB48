@@ -1,6 +1,6 @@
 <!-- Set session -->
 <?php
-	if(!$_SESSION['SessionData'] || $_SESSION['SessionData']['isAdmin'] != 1){
+	if(!$_SESSION['SessionData'] || $_SESSION['SessionData']['isAdmin'] != 2){
 		$_SESSION['halaman-utama.tpt']['message'] = "You're not authorized";
 		header("Location: index.php");
 		exit(0);
@@ -65,9 +65,9 @@
 								$password = $_SESSION['SessionData']['Password'];
 								$imageURL = $_SESSION['SessionData']['URLFoto'];
 								?>
-									<h3>Welcome Administrator</h3>
+									<h3>Welcome Moderator</h3>
 									<div style="padding: 10px 0 10px 60px; border: 1px solid #eee;">
-										<img src="uploads/admin.jpg" alt="" width="180"/>
+										<img src="uploads/moderator.jpg" alt="" width="180"/>
 										<br /><br />
 										<span style="padding-left: 30px"><a href="controller.php?dispatch=keluar" class="button">Sign Out</a></span>
 									</div>
@@ -92,11 +92,11 @@
 							<!-- Content -->
 								<article class="first">								
 								<!-- Error message -->
-								<?php if(isset($_SESSION['halaman-admin.tpt']['message'])){ ?>
+								<?php if(isset($_SESSION['halaman-moderator.tpt']['message'])){ ?>
 										<div class="row">
 											<div class="12u">
 												<div class="error-box">
-													<span><?php echo $_SESSION['halaman-admin.tpt']['message']; unset($_SESSION['halaman-admin.tpt']['message']); ?></span>
+													<span><?php echo $_SESSION['halaman-moderator.tpt']['message']; unset($_SESSION['halaman-moderator.tpt']['message']); ?></span>
 												</div>
 											</div>
 										</div>
@@ -114,13 +114,13 @@
 										<section class="thumbnails first last">
 											<div class="5grid">
 												<div class="row">
-													<!-- <div class="4u">
+													<div class="4u">
 														<div class="thumbnail first">	
 															<a href="controller.php?dispatch=lihat-daftar-pengguna"><img src="uploads/sitask.png" alt="" width="92" height="122"/></a>
 															<a href="controller.php?dispatch=lihat-daftar-pengguna">USERS LIST</a>
 																													
 														</div>
-													</div> -->
+													</div>
 													<div class="4u">
 														<div class="thumbnail first">	
 															<a href="controller.php?dispatch=lihat-daftar-keluhan"><img src="uploads/complaint.png" alt="" width="92" height="122"/></a>
@@ -128,64 +128,17 @@
 																													
 														</div>
 													</div>
-													<!-- <div class="4u">
+													<div class="4u">
 														<div class="thumbnail">
 															<a href="controller.php?dispatch=lihat-daftar-buku"><img src="uploads/sibuku.png" alt="" width="92" height="122"/></a>
 															<a href="controller.php?dispatch=lihat-daftar-buku">BOOKS LIST</a>
 															
 														</div>
-													</div> -->
-													<div class="12u">
-														<div class="divider"></div>
-													</div>
-												</div>
-												
-												<?php if($_SESSION['SystemMode'] != 1){ ?>
-												<div class="row">
-													<div class="4u">
-														<div class="thumbnail first">
-														<?php 
-															if($_SESSION['SystemMode'] == 0){?>
-															<a href="controller.php?dispatch=ubah-sistem-mode&mode=2"><img src="images/release.png" alt="" width="92" height="122"/></a>
-															<a href="controller.php?dispatch=ubah-sistem-mode&mode=2">SET SYSTEM MODE TO RELEASE</a>
-														<?php }else{?>	
-															<a href="controller.php?dispatch=ubah-sistem-mode&mode=0"><img src="images/developing.png" alt="" width="92" height="122"/></a>
-															<a href="controller.php?dispatch=ubah-sistem-mode&mode=0">SET SYSTEM MODE TO DEVELOPING</a>
-														<?php }?>															
-														</div>
-													</div>
-													<div class="4u">
-														<div class="thumbnail first">
-														<?php 
-															if($_SESSION['SystemMode'] != 1){ ?>
-															<a href="controller.php?dispatch=ubah-sistem-mode&mode=1"><img src="images/maintenance.png" alt="" width="92" height="122"/></a>
-															<a href="controller.php?dispatch=ubah-sistem-mode&mode=1">SET SYSTEM MODE TO UNDER MAINTENANCE</a>
-														<?php } ?>															
-														</div>
 													</div>
 													<div class="12u">
 														<div class="divider"></div>
 													</div>
 												</div>
-												<?php } else { ?>
-												<div class="row">
-													<div class="4u">
-														<div class="thumbnail first">
-															<a href="controller.php?dispatch=ubah-sistem-mode&mode=2"><img src="images/release.png" alt="" width="92" height="122"/></a>
-															<a href="controller.php?dispatch=ubah-sistem-mode&mode=2">SET SYSTEM MODE TO RELEASE</a>
-														</div>
-													</div>
-													<div class="4u">
-														<div class="thumbnail first">
-															<a href="controller.php?dispatch=ubah-sistem-mode&mode=0"><img src="images/developing.png" alt="" width="92" height="122"/></a>
-															<a href="controller.php?dispatch=ubah-sistem-mode&mode=0">SET SYSTEM MODE DEVELOPING</a>														
-														</div>
-													</div>
-													<div class="12u">
-														<div class="divider"></div>
-													</div>
-												</div>
-												<?php } ?>
 											</div>
 										</section>
 									</div>
