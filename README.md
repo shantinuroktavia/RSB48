@@ -23,14 +23,14 @@ Konfigurasi Basis Data Buku-Kuliah.com (pada localhost):
 
 ##STEP 3 : 
 Detail login yang disediakan:
-1) Admin Sistem:
+* Admin Sistem:
 	* username : admin
 	* password : bukukuli4h
 
-2) Moderator:
+* Moderator:
 	* username : moderator
 	* password : momod01
 
-3) User biasa: 
+* User biasa: 
 	* username : 
 	* password :
