@@ -54,8 +54,11 @@
 							PageController::load("halaman-utama.tpt", array("message"=>"We are now conducting alpha testing. Come back here later."));
 						}
 						PageController::setSessionData($p);
-						if($p['isAdmin'] == 1 || $p['isAdmin'] == 2){
+						if($p['isAdmin'] == 1){
 							PageController::load("halaman-admin.tpt", array("message"=>"Login Success", "data"=>$p));
+							$_SESSION['SessionData']['token'] = PageController::getRandomChars(20);
+						}elseif($p['isAdmin'] == 2){
+							PageController::load("halaman-moderator.tpt", array("message"=>"Login Success", "data"=>$p));
 							$_SESSION['SessionData']['token'] = PageController::getRandomChars(20);
 						}else
 							PageController::load("halaman-utama.tpt", array("message"=>"Login Success", "data"=>$p));						
@@ -216,7 +219,7 @@
 						
 						$_SESSION['PageController']['message'] = "$n book(s) have been trashed.";
 						PageController::dispatch("lihat-profil", true);
-					}else if($_SESSION['SessionData']['isAdmin'] == 1){
+					}else if($_SESSION['SessionData']['isAdmin'] == 2){
 						$data = array_unique($data, SORT_NUMERIC);
 						$n = count($data);
 						foreach($data as $id){ 

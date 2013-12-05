@@ -7,13 +7,13 @@
 	$pm = new SistemManager();
 	
 	$_SESSION['SystemMode'] = $pm->getSystemMode();
-	if($_SESSION['SystemMode'] == 1 && ((!isset($_SESSION['SessionData'])) || (isset($_SESSION['SessionData']) && ($_SESSION['SessionData']['isAdmin'] != 1)))){
+	if($_SESSION['SystemMode'] == 1 && ((!isset($_SESSION['SessionData'])) || (isset($_SESSION['SessionData']) && ($_SESSION['SessionData']['isAdmin'] != 1 || $_SESSION['SessionData']['isAdmin'] != 2)))){
 		header("Location: index.php");
 		exit(0);
 	}
 	
 	if($_SERVER['SERVER_NAME']=="localhost")
-		$uploadDir = "C:\\xampp\\htdocs\\buku-kuliah\\betalive\\uploads\\";
+		$uploadDir = "C:\\xampp\\htdocs\\betalive\\uploads\\";
 	else if($_SERVER['SERVER_NAME']=="buku-kuliah.com")
 		$uploadDir = "/home/bukuk426/public_html/betalive/uploads/";
 	else if($_SERVER['SERVER_NAME']=="192.168.1.102")
@@ -129,8 +129,8 @@
 	}else if($action == "kirim-pesan"){
 		if(PageController::getSessionData()){
 			$data = $_POST;
-			$_POST['subject'] = preg_replace("|\s+|"," ", trim($_POST['subject']));
-			$_POST['content'] = preg_replace("|[ ]+|"," ", trim($_POST['content']));
+$_POST['subject'] = preg_replace("|\s+|"," ", trim($_POST['subject']));
+$_POST['content'] = preg_replace("|[ ]+|"," ", trim($_POST['content']));
 			if(isset($_POST['to']) && isset($_POST['subject']) && isset($_POST['content'])){
 				if(strlen($_POST['subject']) < 5 || strlen($_POST['subject']) > 30){
 					$data["message"] = "Subject length must be 5-30 non-whitespace characters";

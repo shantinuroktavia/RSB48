@@ -4,7 +4,7 @@ Sistem Manager.php merupakan class untuk mengatur System Mode.
 System mode ada tiga jenis: Developing, Maintaining, Release.
 Developing : sistem sedang dalam pengembangan, hanya user tertentu (alfatester) yang bisa masuk
 Maintaining : sistem ditutup secara total
-Release: sistem dibuka.
+RElease: sistem dibuka.
 
 */
 	//include class DAM

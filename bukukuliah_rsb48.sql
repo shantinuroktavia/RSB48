@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2013 at 04:38 AM
+-- Generation Time: Dec 04, 2013 at 06:37 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `bukuk426_bukukuliah`
+-- Database: `bukukuliah_rsb48`
 --
 
 -- --------------------------------------------------------
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `aktor_sistem` (
   PRIMARY KEY (`ID`),
   UNIQUE KEY `Email` (`Email`),
   UNIQUE KEY `Username` (`Username`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
 
 --
 -- Dumping data for table `aktor_sistem`
@@ -60,11 +60,12 @@ INSERT INTO `aktor_sistem` (`ID`, `isAdmin`, `Username`, `Nama`, `Email`, `Passw
 (7, '1', 'admin', 'Administrator', 'support@buku-kuliah.com', '4f36296f2aedf8ba42407a7dd9645430', '5', 0, NULL, NULL, NULL, NULL, 'uploads/admin.jpg', 0, 0),
 (9, '0', 'markonah', 'Marissa Komarina Hortenz', 'redjam_sanctuary@yahoo.com', '327d0a341559b1eef01969c09d13e7dc', '5', 9, '													There\\''s no such a book that is good to everybody.																																																												', NULL, NULL, NULL, 'uploads/g5VshWzDgsGtt0kdwQ3o.png', 1, 2),
 (15, '0', 'irfan91', 'Muhammad Irfan Nasution', 'mhd.irfan@ui.ac.id', 'f98c261b7807521d75c131c3f4666940', '5', 0, 'lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ip', '2013-05-26 00:00:00', '2013-06-01 00:00:00', 'bot user', 'uploads/irfan91-messi_1324491f.jpg', 0, 0),
-(27, '0', 'Amalia', 'Maghfirotul Amalia', 'maghfirotul_amalia@yahoo.com', 'e37ca159d47db7d4e32eaa425eb10dfb', '7', 0, 'I am...', NULL, NULL, NULL, 'uploads/Amalia-img1.jpg', 0, 0),
+(27, '0', 'Amalia', 'Maghfirotul Amalia', 'maghfirotul_amalia@yahoo.com', 'e37ca159d47db7d4e32eaa425eb10dfb', '7', 0, 'I am...', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'uploads/Amalia-img1.jpg', 0, 0),
 (21, '0', 'lololala', 'Galang Rambo Anarki', 'lrigvrkr@sharklasers.com', '9aaaab6cb0a3e03a7e2995257b561774', '22', 4, '																																																																																											saya adalah lolo																																																																																				', NULL, NULL, NULL, 'uploads/JKC6tUHcqOgzM2ixeV8x.jpg', 0, 3),
 (4, '0', 'firliasandyta', 'Firlia Sandyta', 'firliasandyta@gmail.com', 'd0674e8ba7edb51e20dd146490ea8dde', '7', 19, '													Ilmu Komputer UI												', NULL, NULL, NULL, 'uploads/mEKwLNqfIhMBMDV2RctG.jpg', 0, 1),
 (42, '0', 'admin2', 'Admin Non System', 'viniagrameizi@gmail.com', 'd81f98291b461c7ccefa38ee5d75af31', '7', 0, 'Admin yang mengurusi bagian non-system', NULL, NULL, NULL, 'uploads/admin2-user_admin_gear.png', 0, 0),
-(29, '0', 'mawarmelati', 'Mawar Melati', 'gvabtowz@sharklasers.com', 'fcea920f7412b5da7be0cf42b8c93759', '1', 7, 'Saya adalah mahasiswa Ilmu Komputer yang sangat suka maen komputer																																																																																												', NULL, NULL, NULL, 'uploads/mawarmelati-akhwat tangguh.jpeg', 0, 1);
+(29, '0', 'mawarmelati', 'Mawar Melati', 'gvabtowz@sharklasers.com', 'fcea920f7412b5da7be0cf42b8c93759', '1', 7, 'Saya adalah mahasiswa Ilmu Komputer yang sangat suka maen komputer																																																																																												', NULL, NULL, NULL, 'uploads/mawarmelati-akhwat tangguh.jpeg', 0, 1),
+(43, '2', 'moderator', 'Moderator Buku Kuliah', 'moderator01@bukukuliah.com', '617b69d4fddbb09556f75b5f54205bf5', '8', 0, 'Moderator BukuKuliah.com bertugas untuk memantau pengguna dan buku pada sistem BukuKuliah.com.', NULL, NULL, NULL, 'uploads/moderator.jpg', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -936,7 +937,7 @@ CREATE TABLE IF NOT EXISTS `sistem` (
 
 INSERT INTO `sistem` (`ID`, `mode`) VALUES
 (0, 1),
-(1, 0);
+(1, 2);
 
 -- --------------------------------------------------------
 
