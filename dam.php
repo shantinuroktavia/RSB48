@@ -2,7 +2,7 @@
 class DAM extends mysqli{
 	public function __construct(){
 		if($_SERVER['SERVER_NAME']=="localhost")
-			parent::__construct("localhost", "bukuk_rsb48", "rsb48_asik", "bukukuliah_rsb48");
+			parent::__construct("localhost", "root", "", "buku-kuliah");
 		else
 			parent::__construct("http://nama-hostingan", "bukuk_rsb48", "rsb48_asik", "bukukuliah_rsb48");
 	}

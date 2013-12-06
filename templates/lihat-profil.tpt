@@ -170,6 +170,16 @@
 											echo stripslashes(stripslashes(preg_replace("|\\\\r\\\\n|i","<br />",$_SESSION['SessionData']['Deskripsi'])));?>
 											</td>
 											</tr>
+											<tr>
+											<td style="vertical-align:top"><label for="badge" >Badge</label></td>
+											<td><name="message" id="message" readonly>
+												<img src="images/newbie.png" width="100px"/>
+												<img src="images/firstUpload.png" width="100px"/>
+												<img src="images/fifthUpload.png" width="100px"/>
+												<img src="images/fullRating1.png" width="100px"/>
+												<img src="images/fullRating5.png" width="100px"/>
+											</td>
+											</tr>
 											</table>	
 									<p>&nbsp;</p><hr /><br />    
 									<h2>Book Collection</h2>									

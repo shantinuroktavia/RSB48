@@ -124,6 +124,12 @@
 					<div class="row">
 						<div class="bar 3u">							
 							<section>
+							<!-- POP UP NEWBIE DI SINI! -->
+							<?php
+							if(isset($_SESSION['halaman-utama.tpt']['is_newbie'])){
+								echo '<script type="text/javascript">alert("Selamat Anda Mendapatkan Badge NEWBIE");</script>'; 
+								unset($_SESSION['halaman-utama.tpt']['is_newbie']);
+							}?>
 							<?php
 							if(isset($_SESSION['SessionData'])){
 								$username = $_SESSION['SessionData']['Username'];
@@ -182,8 +188,7 @@
 						<div class="bar middle-bar">
 							<div class="9u mobileUI-main-content">						
 								<!-- Content -->
-									<article class="first">								
-						
+									<article class="first">	
 									<!-- Error message -->
 									<?php if(isset($_SESSION['halaman-utama.tpt']['message'])){ ?>
 										<div class="row">

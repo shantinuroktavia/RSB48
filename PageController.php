@@ -28,7 +28,10 @@
 						$success = $pm->createPengguna($data);
 						if($success){
 							unset($_SESSION['daftar-pengguna.tpt']);
-							PageController::load("halaman-utama.tpt", array("message"=>"Registration success. You may now login."));
+							// UNTUK NEWBIE EDIT SCRIPT INI!
+							$data["message"] = "Registration success. You may now login.";
+							$data["is_newbie"] = "TRUE";
+							PageController::load("halaman-utama.tpt", $data);
 						}else{
 							$data["message"] = "Registration Failed. An error happens when saving to database.";
 							$data["password"] = "";

@@ -13,7 +13,7 @@
 	}
 	
 	if($_SERVER['SERVER_NAME']=="localhost")
-		$uploadDir = "C:\\xampp\\htdocs\\betalive\\uploads\\";
+		$uploadDir = "D:\\xampp\\htdocs\\root\\RSB48\\uploads\\";
 	else if($_SERVER['SERVER_NAME']=="buku-kuliah.com")
 		$uploadDir = "/home/bukuk426/public_html/betalive/uploads/";
 	else if($_SERVER['SERVER_NAME']=="192.168.1.102")
