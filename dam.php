@@ -18,8 +18,9 @@ class DAM extends mysqli{
 			$Email = $data->email;
 			$Nama = $data->nama;
 			$Deskripsi = $data->deskripsi;
-			$query = "INSERT INTO `aktor_sistem` (`Username`, `Password`, `Lokasi`, `URLFoto`, `Email`, `Nama`, `Deskripsi`) 
-								  VALUES('$Username', '$Password', '$Lokasi', '$URLFoto', '$Email', '$Nama', '$Deskripsi')";
+			$newbieFlag = $data->newbieFlag;
+			$query = "INSERT INTO `aktor_sistem` (`Username`, `Password`, `Lokasi`, `URLFoto`, `Email`, `Nama`, `Deskripsi`, `NewbieFlag`) 
+								  VALUES('$Username', '$Password', '$Lokasi', '$URLFoto', '$Email', '$Nama', '$Deskripsi', '$newbieFlag')";
 			//var_dump($query);exit(0);
 			return parent::query($query);
 		}else if($tableName == "pesan"){
@@ -463,6 +464,13 @@ class DAM extends mysqli{
 	
 	public function update($tableName, $data, $cond){
 		if($tableName == "pengguna"){
+			/*if($data == "newbie"){
+				$query = "UPDATE `aktor_sistem` SET $tableUpdate WHERE $whereStatement";
+				parent::query($query);
+				//var_dump($query);exit(0);
+				return $this->affected_rows;
+			}*/
+					
 			$tableUpdate = "";
 				foreach($data as $key=>$value){
 					$tableUpdate .= "$key='$value', ";
@@ -473,13 +481,13 @@ class DAM extends mysqli{
 			foreach($cond as $key=>$value){
 				$whereStatement .= "$key='$value' AND ";
 			}
-			$whereStatement = substr($whereStatement, 0, strlen($whereStatement)-4);
-			
+			$whereStatement = substr($whereStatement, 0, strlen($whereStatement)-4);			
 			
 			$query = "UPDATE `aktor_sistem` SET $tableUpdate WHERE $whereStatement";
 			parent::query($query);
 			//var_dump($query);exit(0);
 			return $this->affected_rows;
+			
 		}else if($tableName == "buku"){
 			$tableUpdate = "";
 				foreach($data as $key=>$value){

@@ -92,7 +92,13 @@
 						$_SESSION[$action.".tpt"]["message"] = "Photo cannot be moved.";
 						PageController::load("daftar-pengguna.tpt", $_SESSION[$action.".tpt"]);
 					}else{
-						$data['imageURL'] = "uploads/".$_POST['username']."-". basename($_FILES['picture']['name']);		
+						$data['imageURL'] = "uploads/".$_POST['username']."-". basename($_FILES['picture']['name']);	
+						$data['newbieFlag'] = "1";
+						$data['firstUploadFlag'] = "0";
+						$data['fifthUploadFlag'] = "0";
+						$data['firstFullRatingFlag'] = "0";
+						$data['fifthFullRatingFlag'] = "0";
+						
 						PageController::dispatch($action, $data);
 					}
 				}
@@ -391,8 +397,19 @@ $_POST['content'] = preg_replace("|[ ]+|"," ", trim($_POST['content']));
 			}else{
 				PageController::dispatch($action);
 			}
-		}else{
+		}
+		else{
 			PageController::load("halaman-utama.tpt", array("message"=>"You aren't logged in yet."));
+		}
+	}
+	////////////////////////////////////////// BADGE ///////////////////////////////////////////////////////////////
+	else if($action == "ubah-badge"){
+		if(PageController::getSessionData()){	
+			$p = PageController::getSessionData();
+			$data['ID'] = $p['ID'];				
+			$data['NewbieFlag'] = "1";
+			
+			PageController::dispatch($action, $data);
 		}
 	}else if($action == "info-buku"){
 		$bookId = isset($_GET['id'])?$_GET['id']:0;

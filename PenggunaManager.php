@@ -69,13 +69,22 @@
 			return false;
 		}
 		
+		/////////////////////////////////////////////////// BADGE DI SINI //////////////////////////////////////////////////
 		public function editPengguna($data){
 			$data = $this->validate($data);
 			$cond = array('ID'=>$data['ID']);
 			unset($data['ID']);
 			// echo "<br />data: <br />";var_dump($data);echo "<br />cond: <br />";var_dump($cond);exit(0);
 			return $this->db->update("pengguna", $data, $cond);
-		}
+		}	
+		/*public function addBadge($data){
+			if($tipe_badge == "newbie"){
+					$data = $this->array('ID'=>$id_pengguna, 'Tipe'=>$tipe_badge);
+					return $this->db->update("pengguna", $data);
+			}
+			
+		}*/
+		
 		public function deletePengguna($data){
 			$data = $this->validate($data);
 			return $this->db->delete("pengguna", $data);
@@ -135,7 +144,6 @@
 				return array("valid"=>false, "reason"=>"deleted");
 			}
 		}
-	
 	}
 	
 	
