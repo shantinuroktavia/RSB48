@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.2.2
+-- version 3.4.5
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 04, 2013 at 06:37 PM
--- Server version: 5.5.27
--- PHP Version: 5.4.7
+-- Host: localhost
+-- Generation Time: Dec 08, 2013 at 04:43 PM
+-- Server version: 5.5.16
+-- PHP Version: 5.3.8
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `bukukuliah_rsb48`
+-- Database: `buku-kuliah`
 --
 
 -- --------------------------------------------------------
@@ -42,30 +42,54 @@ CREATE TABLE IF NOT EXISTS `aktor_sistem` (
   `URLFoto` varchar(200) DEFAULT NULL,
   `isAlphaTester` tinyint(4) NOT NULL DEFAULT '0',
   `Jumlah_Rater` int(11) NOT NULL DEFAULT '0',
+  `FirstUploadFlag` varchar(1) NOT NULL DEFAULT '0',
+  `FifthUploadFlag` varchar(1) NOT NULL DEFAULT '0',
+  `FirstFullRatingFlag` varchar(1) NOT NULL DEFAULT '0',
+  `FifthFullRatingFlag` varchar(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `Email` (`Email`),
-  UNIQUE KEY `Username` (`Username`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
+  UNIQUE KEY `Username` (`Username`),
+  KEY `ID` (`ID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=67 ;
 
 --
 -- Dumping data for table `aktor_sistem`
 --
 
-INSERT INTO `aktor_sistem` (`ID`, `isAdmin`, `Username`, `Nama`, `Email`, `Password`, `Lokasi`, `Reputasi`, `Deskripsi`, `MulaiBlokir`, `SelesaiBlokir`, `AlasanBlokir`, `URLFoto`, `isAlphaTester`, `Jumlah_Rater`) VALUES
-(1, '1', 'irfan92', 'Muhammad Irfan Nasution', 'irfan.nasution@live.com', 'f98c261b7807521d75c131c3f4666940', '7', 16, '													That was a legend.. wait for it.. dary																																																																																																									', NULL, NULL, NULL, 'uploads/fUemvBejU1hWL5flMOiX.jpg', 1, 2),
-(22, '0', 'mady92', 'mady mady', 'mady@gmail.com', 'd2f49831d57d5e31e410c8108bed2215', '8', 0, 'Someone at different time continuum... Fans of syfy channel', NULL, NULL, NULL, 'uploads/mady92-diagram-47.png', 1, 0),
-(3, '0', 'melyana', 'Liliana Tanoesudibyo', 'mely@yahoo.co.id', '9c85538bf722fc660a44325ba63fb72f', '5', 0, 'Ingin mencoba sistem ini.																								', NULL, NULL, NULL, 'uploads/p25BJgAeqQmDHDlAtBjm.PNG', 0, 0),
-(24, '0', 'mercia01', 'mercia noviana', 'mercia_a@yahoo.com', 'e10adc3949ba59abbe56e057f20f883e', '8', 20, 'fasilkom', NULL, NULL, NULL, 'uploads/mercia01-kepang air.PNG', 0, 1),
-(5, '0', 'ahmadahfa', 'Ahmad Ahfa Fanani', 'ahmadahfa@gmail.com', '5825e9386a353dc44698240dfa4010dc', '22', 18, '													A student of University of Indonesia												', '2013-05-14 00:00:00', '2013-05-15 00:00:00', '', 'uploads/bNFegCgGPWjoKz7YhwYI.jpg', 1, 2),
-(7, '1', 'admin', 'Administrator', 'support@buku-kuliah.com', '4f36296f2aedf8ba42407a7dd9645430', '5', 0, NULL, NULL, NULL, NULL, 'uploads/admin.jpg', 0, 0),
-(9, '0', 'markonah', 'Marissa Komarina Hortenz', 'redjam_sanctuary@yahoo.com', '327d0a341559b1eef01969c09d13e7dc', '5', 9, '													There\\''s no such a book that is good to everybody.																																																												', NULL, NULL, NULL, 'uploads/g5VshWzDgsGtt0kdwQ3o.png', 1, 2),
-(15, '0', 'irfan91', 'Muhammad Irfan Nasution', 'mhd.irfan@ui.ac.id', 'f98c261b7807521d75c131c3f4666940', '5', 0, 'lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ip', '2013-05-26 00:00:00', '2013-06-01 00:00:00', 'bot user', 'uploads/irfan91-messi_1324491f.jpg', 0, 0),
-(27, '0', 'Amalia', 'Maghfirotul Amalia', 'maghfirotul_amalia@yahoo.com', 'e37ca159d47db7d4e32eaa425eb10dfb', '7', 0, 'I am...', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'uploads/Amalia-img1.jpg', 0, 0),
-(21, '0', 'lololala', 'Galang Rambo Anarki', 'lrigvrkr@sharklasers.com', '9aaaab6cb0a3e03a7e2995257b561774', '22', 4, '																																																																																											saya adalah lolo																																																																																				', NULL, NULL, NULL, 'uploads/JKC6tUHcqOgzM2ixeV8x.jpg', 0, 3),
-(4, '0', 'firliasandyta', 'Firlia Sandyta', 'firliasandyta@gmail.com', 'd0674e8ba7edb51e20dd146490ea8dde', '7', 19, '													Ilmu Komputer UI												', NULL, NULL, NULL, 'uploads/mEKwLNqfIhMBMDV2RctG.jpg', 0, 1),
-(42, '0', 'admin2', 'Admin Non System', 'viniagrameizi@gmail.com', 'd81f98291b461c7ccefa38ee5d75af31', '7', 0, 'Admin yang mengurusi bagian non-system', NULL, NULL, NULL, 'uploads/admin2-user_admin_gear.png', 0, 0),
-(29, '0', 'mawarmelati', 'Mawar Melati', 'gvabtowz@sharklasers.com', 'fcea920f7412b5da7be0cf42b8c93759', '1', 7, 'Saya adalah mahasiswa Ilmu Komputer yang sangat suka maen komputer																																																																																												', NULL, NULL, NULL, 'uploads/mawarmelati-akhwat tangguh.jpeg', 0, 1),
-(43, '2', 'moderator', 'Moderator Buku Kuliah', 'moderator01@bukukuliah.com', '617b69d4fddbb09556f75b5f54205bf5', '8', 0, 'Moderator BukuKuliah.com bertugas untuk memantau pengguna dan buku pada sistem BukuKuliah.com.', NULL, NULL, NULL, 'uploads/moderator.jpg', 0, 0);
+INSERT INTO `aktor_sistem` (`ID`, `isAdmin`, `Username`, `Nama`, `Email`, `Password`, `Lokasi`, `Reputasi`, `Deskripsi`, `MulaiBlokir`, `SelesaiBlokir`, `AlasanBlokir`, `URLFoto`, `isAlphaTester`, `Jumlah_Rater`, `FirstUploadFlag`, `FifthUploadFlag`, `FirstFullRatingFlag`, `FifthFullRatingFlag`) VALUES
+(1, '1', 'irfan92', 'Muhammad Irfan Nasution', 'irfan.nasution@live.com', 'f98c261b7807521d75c131c3f4666940', '7', 16, '													That was a legend.. wait for it.. dary																																																																																																									', NULL, NULL, NULL, 'uploads/fUemvBejU1hWL5flMOiX.jpg', 1, 2, '', '', '', ''),
+(22, '0', 'mady92', 'mady mady', 'mady@gmail.com', 'd2f49831d57d5e31e410c8108bed2215', '8', 0, 'Someone at different time continuum... Fans of syfy channel', NULL, NULL, NULL, 'uploads/mady92-diagram-47.png', 1, 0, '', '', '', ''),
+(3, '0', 'melyana', 'Liliana Tanoesudibyo', 'mely@yahoo.co.id', '9c85538bf722fc660a44325ba63fb72f', '5', 0, 'Ingin mencoba sistem ini.																								', NULL, NULL, NULL, 'uploads/p25BJgAeqQmDHDlAtBjm.PNG', 0, 0, '', '', '', ''),
+(24, '0', 'mercia01', 'mercia noviana', 'mercia_a@yahoo.com', 'e10adc3949ba59abbe56e057f20f883e', '8', 20, 'fasilkom', NULL, NULL, NULL, 'uploads/mercia01-kepang air.PNG', 0, 1, '', '', '', ''),
+(5, '0', 'ahmadahfa', 'Ahmad Ahfa Fanani', 'ahmadahfa@gmail.com', '5825e9386a353dc44698240dfa4010dc', '22', 18, '													A student of University of Indonesia												', '2013-05-14 00:00:00', '2013-05-15 00:00:00', '', 'uploads/bNFegCgGPWjoKz7YhwYI.jpg', 1, 2, '', '', '', ''),
+(7, '1', 'admin', 'Administrator', 'support@buku-kuliah.com', '4f36296f2aedf8ba42407a7dd9645430', '5', 0, NULL, NULL, NULL, NULL, 'uploads/admin.jpg', 0, 0, '', '', '', ''),
+(9, '0', 'markonah', 'Marissa Komarina Hortenz', 'redjam_sanctuary@yahoo.com', '327d0a341559b1eef01969c09d13e7dc', '5', 9, '													There\\''s no such a book that is good to everybody.																																																												', NULL, NULL, NULL, 'uploads/g5VshWzDgsGtt0kdwQ3o.png', 1, 2, '', '', '', ''),
+(15, '0', 'irfan91', 'Muhammad Irfan Nasution', 'mhd.irfan@ui.ac.id', 'f98c261b7807521d75c131c3f4666940', '5', 0, 'lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ip', '2013-05-26 00:00:00', '2013-06-01 00:00:00', 'bot user', 'uploads/irfan91-messi_1324491f.jpg', 0, 0, '', '', '', ''),
+(27, '0', 'Amalia', 'Maghfirotul Amalia', 'maghfirotul_amalia@yahoo.com', 'e37ca159d47db7d4e32eaa425eb10dfb', '7', 0, 'I am...', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 'uploads/Amalia-img1.jpg', 0, 0, '', '', '', ''),
+(21, '0', 'lololala', 'Galang Rambo Anarki', 'lrigvrkr@sharklasers.com', '9aaaab6cb0a3e03a7e2995257b561774', '22', 4, '																																																																																											saya adalah lolo																																																																																				', NULL, NULL, NULL, 'uploads/JKC6tUHcqOgzM2ixeV8x.jpg', 0, 3, '', '', '', ''),
+(4, '0', 'firliasandyta', 'Firlia Sandyta', 'firliasandyta@gmail.com', 'd0674e8ba7edb51e20dd146490ea8dde', '7', 19, '													Ilmu Komputer UI												', NULL, NULL, NULL, 'uploads/mEKwLNqfIhMBMDV2RctG.jpg', 0, 1, '', '', '', ''),
+(42, '0', 'admin2', 'Admin Non System', 'viniagrameizi@gmail.com', 'd81f98291b461c7ccefa38ee5d75af31', '7', 0, 'Admin yang mengurusi bagian non-system', NULL, NULL, NULL, 'uploads/admin2-user_admin_gear.png', 0, 0, '', '', '', ''),
+(29, '0', 'mawarmelati', 'Mawar Melati', 'gvabtowz@sharklasers.com', 'fcea920f7412b5da7be0cf42b8c93759', '1', 7, 'Saya adalah mahasiswa Ilmu Komputer yang sangat suka maen komputer																																																																																												', NULL, NULL, NULL, 'uploads/mawarmelati-akhwat tangguh.jpeg', 0, 1, '', '', '', ''),
+(43, '2', 'moderator', 'Moderator Buku Kuliah', 'moderator01@bukukuliah.com', '617b69d4fddbb09556f75b5f54205bf5', '8', 0, 'Moderator BukuKuliah.com bertugas untuk memantau pengguna dan buku pada sistem BukuKuliah.com.', NULL, NULL, NULL, 'uploads/moderator.jpg', 0, 0, '', '', '', ''),
+(65, '0', 'temennyaardi', 'Temennya Ardi', 'temennya.ardi@gmail.com', '3a3b203e76a1a7166403e9aa159c3409', '8', 0, 'temennya ardi temennya ardi', NULL, NULL, NULL, 'uploads/temennyaardi-web-3.0.png', 0, 0, '1', '0', '0', '0'),
+(63, '0', 'rizkyardiansyah', 'Rizky Ardiansyah', 'rizky.ardiansyah4891@gmail.com', 'a8608154e0995b4ed0c8092a7fd56632', '8', 0, 'Pria Punya Selera', NULL, NULL, NULL, 'uploads/rizkyardiansyah-profile picture.jpg', 0, 0, '1', '1', '1', '1'),
+(66, '0', 'ronaldo', 'Ronaldo', 'ronaldo@gmail.com', 'c5aa3124b1adad080927ce4d144c6b33', '8', 0, 'Pemain Bola nomor 1 di dunia', NULL, NULL, NULL, 'uploads/ronaldo-ronaldo.jpg', 0, 0, '1', '0', '1', '0');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `badge`
+--
+
+CREATE TABLE IF NOT EXISTS `badge` (
+  `IDPengguna` int(35) NOT NULL,
+  `NewbieFlag` varchar(1) NOT NULL,
+  `FirstUploadFlag` varchar(1) NOT NULL,
+  `FifthUploadFlag` varchar(1) NOT NULL,
+  `FirstFullRatingFlag` varchar(1) NOT NULL,
+  `FifthFullRatingFlag` varchar(1) NOT NULL,
+  KEY `IDPengguna` (`IDPengguna`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -87,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `buku` (
   `Jumlah_Rater` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`IDBuku`),
   KEY `ID` (`ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=81 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=126 ;
 
 --
 -- Dumping data for table `buku`
@@ -110,7 +134,17 @@ INSERT INTO `buku` (`ID`, `IDBuku`, `Judul`, `Penerbit`, `URLFoto`, `Edisi`, `Pe
 (5, 73, 'Al-Kahfi', 'Barokah Press', 'uploads/AwxyjOEBTQnpNulEW9F3.jpg', 1, 'Bukhori Abdulla, Lc.', 2001, 0, 0, 0),
 (4, 69, 'How To make Yourself Happy', 'Erlangga', 'uploads/epXlxRuch1LSAilMPLbG.jpg', 1, 'Firlia Sandyta', 2013, 15, 0, 1),
 (5, 62, 'Physics in Fiction', 'Mc Grow Hell', 'uploads/If1Xqr8nH9456oLzzydh.jpg', 90, 'Stephen Meyer', 2000, 19, 0, 1),
-(21, 66, 'L\\''s Bravo Viewtiful', 'Woolim Entertainment', 'uploads/W4N6D7IeCyM4nTFtNEwa.jpg', 1, 'Kim Myungsoo', 2013, 0, 0, 0);
+(21, 66, 'L\\''s Bravo Viewtiful', 'Woolim Entertainment', 'uploads/W4N6D7IeCyM4nTFtNEwa.jpg', 1, 'Kim Myungsoo', 2013, 0, 0, 0),
+(65, 107, 'SIG', 'Fasilkom', 'uploads/NcDSh0dOlO1oxw7mN4t4.png', 3, 'Pak Dadan', 2013, 19, 0, 1),
+(65, 108, 'SIG', 'Fasilkom', 'uploads/VaDyVOJur4PsHebKlQFO.png', 3, 'Pak Dadan', 2013, 0, 0, 0),
+(63, 111, 'PPW', 'Fasilkom', 'uploads/L8b8JUL0XIbcTKDerenW.png', 2, 'Pak Bayu', 2013, 20, 0, 1),
+(66, 109, 'Bola', 'FIFA', 'uploads/XCFMpUBEFUnsJWPyD6fw.jpg', 3, 'Ronaldo', 2013, 0, 0, 0),
+(66, 110, 'SIG', 'Fasilkom', 'uploads/TYvwnulQhyZWtIxCrAla.png', 5, 'Pak Dadan', 2013, 20, 0, 1),
+(63, 112, 'PPW', 'Fasilkom', 'uploads/q5EBuVw3UR6l8V8peZCT.png', 3, 'Pak Bayu', 2013, 20, 0, 1),
+(63, 113, 'PPW', 'Fasilkom', 'uploads/4jEBCLuBaX8TW9al2JC3.png', 4, 'Pak Bayu', 2013, 20, 0, 1),
+(63, 114, 'PPW', 'Fasilkom', 'uploads/Sr85KvopQruXolqfGzmT.png', 5, 'Pak Bayu', 2013, 20, 0, 1),
+(63, 124, 'PPW', 'Fasilkom', 'uploads/3yT2bY7OBEJulotkZKzq.png', 6, 'Pak Bayu', 2013, 20, 0, 1),
+(63, 125, 'SIG', 'Fasilkom', 'uploads/baxq58Ngzk9W5UropANC.png', 4, 'Pak Dadan', 2013, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -127,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `feed` (
   `tipe_feed` enum('0','1','2') NOT NULL DEFAULT '0' COMMENT '0: log, 1: pertanyaan, 2:komentar',
   `id_lokasi` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id_feed`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=207 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=277 ;
 
 --
 -- Dumping data for table `feed`
@@ -339,7 +373,77 @@ INSERT INTO `feed` (`id_feed`, `id_user`, `isi_feed`, `waktu_feed`, `induk_feed`
 (203, 7, 'ada yang punya buku tentang CMMI DEV?', '2013-11-20 03:18:36', NULL, '1', 0),
 (204, 7, 'Saya baru saja memberi resensi untuk buku berjudul "89"', '2013-11-20 03:22:15', NULL, '0', 0),
 (205, 7, 'Mungkin ada yang punya buku tentang CMMI Dev?', '2013-11-20 03:23:52', NULL, '1', 0),
-(206, 7, 'Mungkin ada yang punya buku tentang CMMI Dev?', '2013-11-20 03:25:44', NULL, '1', 0);
+(206, 7, 'Mungkin ada yang punya buku tentang CMMI Dev?', '2013-11-20 03:25:44', NULL, '1', 0),
+(207, 63, 'Dikit lagi UAS nih :)', '2013-12-06 12:58:42', NULL, '1', 8),
+(208, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=81''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-06 13:08:08', NULL, '0', 8),
+(209, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 00:14:42', NULL, '0', 8),
+(210, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=82''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 00:17:24', NULL, '0', 8),
+(211, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 00:30:08', NULL, '0', 8),
+(212, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=83''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 00:45:38', NULL, '0', 8),
+(213, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 00:47:13', NULL, '0', 8),
+(214, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=84''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 00:50:52', NULL, '0', 8),
+(215, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 00:51:27', NULL, '0', 8),
+(216, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=85''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 01:19:59', NULL, '0', 8),
+(217, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 01:23:53', NULL, '0', 8),
+(218, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=86''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 01:24:06', NULL, '0', 8),
+(219, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 01:35:23', NULL, '0', 8),
+(220, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=87''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 01:35:34', NULL, '0', 8),
+(221, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=88''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 01:36:48', NULL, '0', 8),
+(222, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 01:43:56', NULL, '0', 8),
+(223, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=89''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 01:44:05', NULL, '0', 8),
+(224, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 01:45:01', NULL, '0', 8),
+(225, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=90''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 01:45:05', NULL, '0', 8),
+(226, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=91''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 01:48:36', NULL, '0', 8),
+(227, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 01:50:44', NULL, '0', 8),
+(228, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=92''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 01:50:55', NULL, '0', 8),
+(229, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 01:51:46', NULL, '0', 8),
+(230, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=93''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 01:51:50', NULL, '0', 8),
+(231, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 01:54:11', NULL, '0', 8),
+(232, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=94''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 01:54:16', NULL, '0', 8),
+(233, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 01:55:19', NULL, '0', 8),
+(234, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=95''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 01:55:21', NULL, '0', 8),
+(235, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 01:56:13', NULL, '0', 8),
+(236, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=96''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 01:56:20', NULL, '0', 8),
+(237, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 01:56:57', NULL, '0', 8),
+(238, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=97''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 01:57:01', NULL, '0', 8),
+(239, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 01:57:51', NULL, '0', 8),
+(240, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=98''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 01:57:56', NULL, '0', 8),
+(241, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 01:58:24', NULL, '0', 8),
+(242, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=99''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 01:58:27', NULL, '0', 8),
+(243, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 02:00:06', NULL, '0', 8),
+(244, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=100''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 02:00:11', NULL, '0', 8),
+(245, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 02:01:18', NULL, '0', 8),
+(246, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=101''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 02:01:20', NULL, '0', 8),
+(247, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 02:01:47', NULL, '0', 8),
+(248, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=102''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 02:01:58', NULL, '0', 8),
+(249, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 02:04:29', NULL, '0', 8),
+(250, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=103''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 02:04:36', NULL, '0', 8),
+(251, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 02:06:54', NULL, '0', 8),
+(252, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=104''>"Tugas II GIS"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 02:07:34', NULL, '0', 8),
+(253, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=105''>"Tugas Komas"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 02:08:52', NULL, '0', 8),
+(254, 63, 'Saya baru saja menghapus buku Tugas II GIS dari direpositori saya.', '2013-12-08 02:11:39', NULL, '0', 8),
+(255, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=106''>"Tugas Komas"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 03:24:37', NULL, '0', 8),
+(256, 65, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=107''>"SIG"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 08:08:09', NULL, '0', 8),
+(257, 65, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=108''>"SIG"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 08:09:24', NULL, '0', 8),
+(258, 66, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=109''>"Bola"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 11:59:03', NULL, '0', 8),
+(259, 66, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=110''>"SIG"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 11:59:55', NULL, '0', 8),
+(260, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=111''>"PPW"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 13:01:58', NULL, '0', 8),
+(261, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=112''>"PPW"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 15:02:10', NULL, '0', 8),
+(262, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=113''>"PPW"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 15:02:25', NULL, '0', 8),
+(263, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=114''>"PPW"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 15:02:41', NULL, '0', 8),
+(264, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=115''>"PPW"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 15:03:34', NULL, '0', 8),
+(265, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=116''>"PPW"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 15:08:02', NULL, '0', 8),
+(266, 63, 'Saya baru saja menghapus buku PPW dari direpositori saya.', '2013-12-08 15:11:15', NULL, '0', 8),
+(267, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=117''>"PPW"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 15:11:59', NULL, '0', 8),
+(268, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=118''>"PPW"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 15:16:18', NULL, '0', 8),
+(269, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=119''>"PPW"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 15:18:03', NULL, '0', 8),
+(270, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=120''>"PPW"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 15:19:23', NULL, '0', 8),
+(271, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=121''>"PPW"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 15:25:55', NULL, '0', 8),
+(272, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=122''>"PPW"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 15:30:11', NULL, '0', 8),
+(273, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=123''>"PPW"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 15:32:42', NULL, '0', 8),
+(274, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=124''>"PPW"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 15:35:13', NULL, '0', 8),
+(275, 63, 'Alhamdulillah saya dpt 5 badge hari ini :D', '2013-12-08 15:39:37', NULL, '1', 8),
+(276, 63, 'Saya baru saja menambahkan buku berjudul <a href=''controller.php?dispatch=info-buku&id=125''>"SIG"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.', '2013-12-08 15:41:16', NULL, '0', 8);
 
 -- --------------------------------------------------------
 
@@ -571,7 +675,26 @@ INSERT INTO `memiliki_kategori` (`IDBuku`, `IDKategori`) VALUES
 (69, 16),
 (62, 2),
 (62, 1),
-(62, 12);
+(62, 12),
+(107, 11),
+(106, 8),
+(108, 11),
+(109, 9),
+(110, 11),
+(111, 11),
+(112, 8),
+(113, 8),
+(114, 8),
+(115, 8),
+(117, 5),
+(118, 5),
+(119, 5),
+(120, 5),
+(121, 10),
+(122, 10),
+(123, 10),
+(124, 10),
+(125, 6);
 
 -- --------------------------------------------------------
 
@@ -783,7 +906,17 @@ INSERT INTO `rater_buku` (`IDBuku`, `ID`) VALUES
 (68, 21),
 (69, 29),
 (77, 23),
-(79, 9);
+(79, 9),
+(81, 63),
+(106, 63),
+(106, 65),
+(107, 65),
+(110, 63),
+(111, 66),
+(112, 66),
+(113, 66),
+(114, 66),
+(124, 66);
 
 -- --------------------------------------------------------
 
@@ -838,7 +971,7 @@ CREATE TABLE IF NOT EXISTS `resensi` (
   PRIMARY KEY (`IDResensi`),
   KEY `IDBuku` (`IDBuku`),
   KEY `IDPemberi` (`IDPemberi`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=121 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=166 ;
 
 --
 -- Dumping data for table `resensi`
@@ -886,7 +1019,26 @@ INSERT INTO `resensi` (`IDBuku`, `IDResensi`, `IDPemberi`, `Isi_Resensi`, `Waktu
 (59, 96, 5, 'ini yg benarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr', '2013-05-24 19:11:22'),
 (66, 97, 21, 'Sangat bagus! Teope Begete', '2013-05-24 19:23:24'),
 (69, 119, 29, 'Buku yang sangat menarik, wajib dibaca biar ga galau dan ngeluh terus-', '2013-06-02 22:15:32'),
-(72, 120, 7, 'Walaupun ini buku udah lumayan lama, tapi ilmunya masih sangat relevan.\r\nSangat bagus untuk referensi perkuliahan.. :)', '2013-11-20 04:22:12');
+(72, 120, 7, 'Walaupun ini buku udah lumayan lama, tapi ilmunya masih sangat relevan.\r\nSangat bagus untuk referensi perkuliahan.. :)', '2013-11-20 04:22:12'),
+(107, 147, 65, 'ASIK ASIK ASIK', '2013-12-08 09:08:09'),
+(106, 146, 63, 'Semoga berhasil berhasil berhasil', '2013-12-08 04:24:37'),
+(108, 148, 65, 'ASIK ASIK ASIK', '2013-12-08 09:09:24'),
+(109, 149, 66, 'Berisi ribuan trik bermain bola ala ronaldo', '2013-12-08 12:59:03'),
+(110, 150, 66, 'SIG Edisi 5', '2013-12-08 12:59:55'),
+(111, 151, 63, 'Bikin web itu mudah kalo tau caranya :)', '2013-12-08 14:01:58'),
+(112, 152, 63, 'Bukunya baguuuuuuuuuuusssssss', '2013-12-08 16:02:10'),
+(113, 153, 63, 'Bukunya baguuuuuuuuuuusssssss', '2013-12-08 16:02:25'),
+(114, 154, 63, 'Bukunya baguuuuuuuuuuusssssss', '2013-12-08 16:02:41'),
+(115, 155, 63, 'Bukunya baguuuuuuuuuuusssssss', '2013-12-08 16:03:34'),
+(117, 157, 63, 'Edisi Terakhir niiiiih', '2013-12-08 16:11:59'),
+(118, 158, 63, 'Edisi Terakhir niiiiih', '2013-12-08 16:16:18'),
+(119, 159, 63, 'Edisi Terakhir niiiiih', '2013-12-08 16:18:03'),
+(120, 160, 63, 'Edisi Terakhir niiiiih', '2013-12-08 16:19:23'),
+(121, 161, 63, 'Edisi Terakhir niiiiih', '2013-12-08 16:25:55'),
+(122, 162, 63, 'Edisi Terakhir niiiiih', '2013-12-08 16:30:11'),
+(123, 163, 63, 'Edisi Terakhir niiiiih', '2013-12-08 16:32:42'),
+(124, 164, 63, 'Edisi Terakhir niiiiih', '2013-12-08 16:35:13'),
+(125, 165, 63, 'Asiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiik', '2013-12-08 16:41:15');
 
 -- --------------------------------------------------------
 
@@ -1033,7 +1185,26 @@ INSERT INTO `tag` (`Tag`, `IDBuku`) VALUES
 ('fisika', '62'),
 (' dimensi', '62'),
 (' galaxy', '62'),
-(' Fotografi', '66');
+(' Fotografi', '66'),
+('sig', '107'),
+('sig', '106'),
+('sig', '108'),
+('bola', '109'),
+('sig', '110'),
+('web ', '111'),
+('web ', '112'),
+('web ', '113'),
+('web ', '114'),
+('web ', '115'),
+('web ', '117'),
+('web ', '118'),
+('web ', '119'),
+('web ', '120'),
+('web ', '121'),
+('web ', '122'),
+('web ', '123'),
+('web ', '124'),
+('sig', '125');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
