@@ -74,9 +74,13 @@
 							$fullRatingBook = $bm->getAllBukuByPengguna($data);
 							
 							if($fullRatingBook->num_rows>0){
-								$userData = array("ID"=>$authData['ID'], "FirstFullRatingFlag"=>'1');
-								//var_dump($data['ID']." dan ".$data['FirstUploadFlag']);exit(0);
-								$pm->editPengguna($userData);
+								if($fullRatingBook->num_rows == 5){
+									$userData = array("ID"=>$authData['ID'], "FifthFullRatingFlag"=>'1');
+									$pm->editPengguna($userData);
+								}else{
+									$userData = array("ID"=>$authData['ID'], "FirstFullRatingFlag"=>'1');
+									$pm->editPengguna($userData);
+								}
 							}
 							
 							PageController::load("halaman-utama.tpt", array("message"=>"Login Success ", "data"=>$p));						
@@ -109,6 +113,13 @@
 								$isFirstUpload = '1';
 							}
 							
+							//Fifth Upload
+							$isFifthUpload = '0';
+							$fifthUpload = $pm->getPengguna(array("ID"=>$p['ID'],"FifthUploadFlag"=>'1'));
+							if($fifthUpload->num_rows>0){
+								$isFifthUpload = '1';
+							}
+							
 							//First Full Rating Upload
 							$isFirstFullRating = '0';
 							$firstFullRating = $pm->getPengguna(array("ID"=>$p['ID'],"FirstFullRatingFlag"=>'1'));
@@ -116,9 +127,16 @@
 								$isFirstFullRating = '1';
 							}
 							
+							//Fifth Full Rating Upload
+							$isFifthFullRating = '0';
+							$fifthFullRating = $pm->getPengguna(array("ID"=>$p['ID'],"FifthFullRatingFlag"=>'1'));
+							if($fifthFullRating->num_rows>0){
+								$isFifthFullRating = '1';
+							}
+							
 							$books = $bm->getAllBukuByPengguna(array("aktor_sistem.ID"=>$p['ID']));
 							//var_dump($books); exit(0);
-							$data = array("void"=>true, "firstUploadFlag"=>$isFirstUpload, "firstFullRatingFlag"=>$isFirstFullRating);
+							$data = array("void"=>true, "firstUploadFlag"=>$isFirstUpload, "fifthUploadFlag"=>$isFifthUpload, "firstFullRatingFlag"=>$isFirstFullRating, "fifthFullRatingFlag"=>$isFifthFullRating);
 							while($line = $books->fetch_assoc()){
 								$data['books'][] = $line;
 							}
@@ -226,14 +244,28 @@
 						$content = "Saya baru saja menambahkan buku berjudul <a href='controller.php?dispatch=info-buku&id=$bookId'>\"$bookTitle\"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.";
 						PageController::log(array('tipe_feed'=>0, 'isi_feed'=>$content, 'id_user'=>$userId, 'id_lokasi'=>$locationId));
 						
-						//FIRST UPLOAD
+						//$data = array('ID'=>$data['ID'], 'FirstUploadFlag'=>'0', 'FifthUploadFlag'=>'0');
 						$data = array('ID'=>$data['ID'], 'FirstUploadFlag'=>'0');
+						
+						//FIRST UPLOAD
 						$isFirstUpload = $pm->getPengguna($data);
+						
+						//FIFTH UPLOAD
+						$isFifthUpload = $bm->getAllBukuByPengguna(array('aktor_sistem.ID'=>$data['ID']));
+						//if($isFifthUpload->num_rows == 5){
+							//var_dump("YEAY");exit(0);
+						//}
 						//var_dump($data['ID']);exit(0);
 						if($isFirstUpload->num_rows>0){
 							$data['FirstUploadFlag'] = '1';
 							$pm->editPengguna($data);
 							PageController::load($action.'.tpt', array("message"=>"Congratulation, a new book has been added to your repo. You also get a new badge 'FIRST UPLOAD'."));
+						}else if($isFifthUpload->num_rows == 5){
+							//var_dump("YEAAAAH");exit(0);
+							$data['FirstUploadFlag'] = '1';
+							$data['FifthUploadFlag'] = '1';
+							$pm->editPengguna($data);
+							PageController::load($action.'.tpt', array("message"=>"Congratulation, a new book has been added to your repo. You also get a new badge 'FIFTH UPLOAD'."));
 						}else{
 							PageController::load($action.'.tpt', array("message"=>"Congratulation, a new book has been added to your repo."));
 						}

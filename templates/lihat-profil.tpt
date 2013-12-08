@@ -174,16 +174,22 @@
 											<td style="vertical-align:top"><label for="badge" >Badge</label></td>
 											<td><name="message" id="message" readonly>
 												<img src="images/newbie.png" width="100px"/>
+												
 												<?php if($_SESSION['lihat-profil.tpt']['firstUploadFlag'] == '1'){?>
 													<img src="images/firstUpload.png" width="100px"/>
+												<?php }?>
+												
+												<?php if($_SESSION['lihat-profil.tpt']['fifthUploadFlag'] == '1'){?>
+													<img src="images/fifthUpload.png" width="100px"/>
 												<?php }?>
 												
 												<?php if($_SESSION['lihat-profil.tpt']['firstFullRatingFlag'] == '1'){?>
 													<img src="images/fullRating1.png" width="100px"/>
 												<?php }?>
 												
-												<!--<img src="images/fifthUpload.png" width="100px"/>
-												<img src="images/fullRating5.png" width="100px"/>-->
+												<?php if($_SESSION['lihat-profil.tpt']['fifthFullRatingFlag'] == '1'){?>
+													<img src="images/fullRating5.png" width="100px"/>
+												<?php }?>
 											</td>
 											</tr>
 											</table>	
