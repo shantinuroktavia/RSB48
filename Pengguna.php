@@ -1,7 +1,6 @@
 <?php
 	class Pengguna{
-		public $username, $password, $email, $lokasi, $imageURL, $isAdmin, $nama, $deskripsi, $newbieFlag, $firstUploadFlag, $fifthUploadFlag, $firstFullRatingFlag, $fifthFullRatingFlag;
-		//public $username, $password, $email, $lokasi, $imageURL, $isAdmin, $nama, $deskripsi;
+		public $username, $password, $email, $lokasi, $imageURL, $isAdmin, $nama, $deskripsi, $firstUploadFlag, $fifthUploadFlag, $firstFullRatingFlag, $fifthFullRatingFlag;
 		
 		public function __construct($data){
 			$this->username = $data['username'];
@@ -13,7 +12,6 @@
 			$this->nama = $data['nama'];
 			$this->deskripsi = $data['deskripsi'];
 			
-			$this->newbieFlag = $data['newbieFlag'];
 			$this->firstUploadFlag = $data['firstUploadFlag'];
 			$this->fifthUploadFlag = $data['fifthUploadFlag'];
 			$this->firstFullRatingFlag = $data['firstFullRatingFlag'];

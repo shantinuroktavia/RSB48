@@ -28,10 +28,11 @@
 			if($temp->num_rows > 0){
 				$line = $temp->fetch_assoc();
 				$id = $line["ID"];
+				//var_dump($id);exit(0);
 				if($this->isBlocked($id)){
 					return array("status"=>3, "reason"=>$line["AlasanBlokir"], "to"=>date("F d, Y", strtotime($line["SelesaiBlokir"])));
 				}
-				return array("status"=>0, "data"=>$line);
+				return array("status"=>0, "data"=>$line, "ID"=>$id);
 			}else{
 				$temp = $this->db->retrieve("pengguna", array("username"=>$data['username']));
 				if($temp->num_rows>0)
@@ -77,16 +78,6 @@
 			// echo "<br />data: <br />";var_dump($data);echo "<br />cond: <br />";var_dump($cond);exit(0);
 			return $this->db->update("pengguna", $data, $cond);
 		}	
-		
-		/*public function addBadge($data){
-			$data = $this->validate($data);
-			$cond = array('ID'=>$data['ID']);
-			unset($data['ID']);
-			if($data['FirstUploadFlag'] == "0"){
-					 $data['FirstUploadFlag'] == "1";
-					return $this->db->update("pengguna", $data, $cond);
-			}
-		}*/
 		
 		public function deletePengguna($data){
 			$data = $this->validate($data);

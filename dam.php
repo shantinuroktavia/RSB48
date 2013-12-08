@@ -18,9 +18,8 @@ class DAM extends mysqli{
 			$Email = $data->email;
 			$Nama = $data->nama;
 			$Deskripsi = $data->deskripsi;
-			$newbieFlag = $data->newbieFlag;
-			$query = "INSERT INTO `aktor_sistem` (`Username`, `Password`, `Lokasi`, `URLFoto`, `Email`, `Nama`, `Deskripsi`, `NewbieFlag`) 
-								  VALUES('$Username', '$Password', '$Lokasi', '$URLFoto', '$Email', '$Nama', '$Deskripsi', '$newbieFlag')";
+			$query = "INSERT INTO `aktor_sistem` (`Username`, `Password`, `Lokasi`, `URLFoto`, `Email`, `Nama`, `Deskripsi`) 
+								  VALUES('$Username', '$Password', '$Lokasi', '$URLFoto', '$Email', '$Nama', '$Deskripsi')";
 			//var_dump($query);exit(0);
 			return parent::query($query);
 		}else if($tableName == "pesan"){
@@ -265,7 +264,7 @@ class DAM extends mysqli{
 					$whereStatement .= "$key='$value' AND ";
 				}
 				$whereStatement = substr($whereStatement, 0, strlen($whereStatement)-4);
-				$query = "SELECT `ID`,`isAdmin`,`Username`,`Nama`,`Email`,`Password`, `Lokasi` as `LokasiID`,`nama_lokasi` AS Lokasi,`Reputasi`,`Deskripsi`,`MulaiBlokir`,`SelesaiBlokir`,`AlasanBlokir`,`URLFoto`,`isAlphaTester`,`Jumlah_Rater`, `FirstUploadFlag` FROM `aktor_sistem` LEFT JOIN `lokasi` ON `lokasi`.`id_lokasi` = `aktor_sistem`.`Lokasi` WHERE $whereStatement";
+				$query = "SELECT `ID`,`isAdmin`,`Username`,`Nama`,`Email`,`Password`, `Lokasi` as `LokasiID`,`nama_lokasi` AS Lokasi,`Reputasi`,`Deskripsi`,`MulaiBlokir`,`SelesaiBlokir`,`AlasanBlokir`,`URLFoto`,`isAlphaTester`,`Jumlah_Rater`, `FirstUploadFlag`, `FirstFullRatingFlag` FROM `aktor_sistem` LEFT JOIN `lokasi` ON `lokasi`.`id_lokasi` = `aktor_sistem`.`Lokasi` WHERE $whereStatement";
 			}
 			//var_dump($query);exit(0);
 			return parent::query($query);
@@ -467,13 +466,6 @@ class DAM extends mysqli{
 	
 	public function update($tableName, $data, $cond){
 		if($tableName == "pengguna"){
-			/*if($data == "newbie"){
-				$query = "UPDATE `aktor_sistem` SET $tableUpdate WHERE $whereStatement";
-				parent::query($query);
-				//var_dump($query);exit(0);
-				return $this->affected_rows;
-			}*/
-					
 			$tableUpdate = "";
 				foreach($data as $key=>$value){
 					$tableUpdate .= "$key='$value', ";

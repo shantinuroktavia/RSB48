@@ -401,16 +401,6 @@ $_POST['content'] = preg_replace("|[ ]+|"," ", trim($_POST['content']));
 		else{
 			PageController::load("halaman-utama.tpt", array("message"=>"You aren't logged in yet."));
 		}
-	}
-	////////////////////////////////////////// BADGE ///////////////////////////////////////////////////////////////
-	else if($action == "ubah-badge"){
-		if(PageController::getSessionData()){	
-			$p = PageController::getSessionData();
-			$data['ID'] = $p['ID'];				
-			$data['NewbieFlag'] = "1";
-			
-			PageController::dispatch($action, $data);
-		}
 	}else if($action == "info-buku"){
 		$bookId = isset($_GET['id'])?$_GET['id']:0;
 		PageController::dispatch($action, array("buku.IDBuku"=>$bookId));

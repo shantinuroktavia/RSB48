@@ -176,9 +176,13 @@
 												<img src="images/newbie.png" width="100px"/>
 												<?php if($_SESSION['lihat-profil.tpt']['firstUploadFlag'] == '1'){?>
 													<img src="images/firstUpload.png" width="100px"/>
-												<?php }?>	
+												<?php }?>
+												
+												<?php if($_SESSION['lihat-profil.tpt']['firstFullRatingFlag'] == '1'){?>
+													<img src="images/fullRating1.png" width="100px"/>
+												<?php }?>
+												
 												<!--<img src="images/fifthUpload.png" width="100px"/>
-												<img src="images/fullRating1.png" width="100px"/>
 												<img src="images/fullRating5.png" width="100px"/>-->
 											</td>
 											</tr>

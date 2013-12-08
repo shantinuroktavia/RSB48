@@ -126,10 +126,10 @@
 							<section>
 							<!-- POP UP NEWBIE DI SINI! -->
 							<?php
-							if(isset($_SESSION['halaman-utama.tpt']['is_newbie'])){
-								echo '<script type="text/javascript">alert("Selamat Anda Mendapatkan Badge NEWBIE");</script>'; 
-								unset($_SESSION['halaman-utama.tpt']['is_newbie']);
-							}?>
+							//if(isset($_SESSION['halaman-utama.tpt']['is_newbie'])){
+							//	echo '<script type="text/javascript">alert("Selamat Anda Mendapatkan Badge NEWBIE");</script>'; 
+							//	unset($_SESSION['halaman-utama.tpt']['is_newbie']);
+							//}?>
 							<?php
 							if(isset($_SESSION['SessionData'])){
 								$username = $_SESSION['SessionData']['Username'];

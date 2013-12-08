@@ -146,7 +146,7 @@
 			$oldRating = $bookInfo['info']['Rating'];
 			$newRating = ($rating+$oldRating*$oldRaters)/($oldRaters+1);
 			$newRaters = $oldRaters + 1;
-			
+				
 			$data = $this->validate(array('Rating'=>$newRating, 'Jumlah_Rater'=>$newRaters));
 			$cond = $this->validate(array('IDBuku'=>$bookId));
 			return $this->db->update("buku", $data, $cond) && $this->db->create("rater_buku", array("IDBuku"=>$bookId, "ID"=>$p['ID']));

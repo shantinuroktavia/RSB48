@@ -63,8 +63,24 @@
 						}elseif($p['isAdmin'] == 2){
 							PageController::load("halaman-moderator.tpt", array("message"=>"Login Success", "data"=>$p));
 							$_SESSION['SessionData']['token'] = PageController::getRandomChars(20);
-						}else
-							PageController::load("halaman-utama.tpt", array("message"=>"Login Success", "data"=>$p));						
+						}else{
+							//$authData['ID']
+							include_once("BukuManager.php");
+							include_once("PenggunaManager.php");
+							$bm = new BukuManager();
+							$pm = new PenggunaManager();
+							
+							$data = array('aktor_sistem.ID'=>$authData['ID'], 'Rating'=>20);
+							$fullRatingBook = $bm->getAllBukuByPengguna($data);
+							
+							if($fullRatingBook->num_rows>0){
+								$userData = array("ID"=>$authData['ID'], "FirstFullRatingFlag"=>'1');
+								//var_dump($data['ID']." dan ".$data['FirstUploadFlag']);exit(0);
+								$pm->editPengguna($userData);
+							}
+							
+							PageController::load("halaman-utama.tpt", array("message"=>"Login Success ", "data"=>$p));						
+						}
 					}else if($authData['status'] == INVALID_USERNAME){
 						PageController::load("halaman-utama.tpt", array("message"=>"Invalid username"));
 					}else if($authData['status'] == INVALID_PASSWORD){
@@ -85,14 +101,24 @@
 							$bm = new BukuManager();
 							$pm = new PenggunaManager();
 							//var_dump($p['ID']); exit(0);
+							
+							//First Upload
 							$isFirstUpload = '0';
 							$firstUpload = $pm->getPengguna(array("ID"=>$p['ID'],"FirstUploadFlag"=>'1'));
 							if($firstUpload->num_rows>0){
 								$isFirstUpload = '1';
 							}
+							
+							//First Full Rating Upload
+							$isFirstFullRating = '0';
+							$firstFullRating = $pm->getPengguna(array("ID"=>$p['ID'],"FirstFullRatingFlag"=>'1'));
+							if($firstFullRating->num_rows>0){
+								$isFirstFullRating = '1';
+							}
+							
 							$books = $bm->getAllBukuByPengguna(array("aktor_sistem.ID"=>$p['ID']));
 							//var_dump($books); exit(0);
-							$data = array("void"=>true, "firstUploadFlag"=>$isFirstUpload);
+							$data = array("void"=>true, "firstUploadFlag"=>$isFirstUpload, "firstFullRatingFlag"=>$isFirstFullRating);
 							while($line = $books->fetch_assoc()){
 								$data['books'][] = $line;
 							}
@@ -199,22 +225,14 @@
 						$bookTitle = $data['Judul'];
 						$content = "Saya baru saja menambahkan buku berjudul <a href='controller.php?dispatch=info-buku&id=$bookId'>\"$bookTitle\"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.";
 						PageController::log(array('tipe_feed'=>0, 'isi_feed'=>$content, 'id_user'=>$userId, 'id_lokasi'=>$locationId));
-						//var_dump($data['ID']);exit(0);
+						
 						//FIRST UPLOAD
 						$data = array('ID'=>$data['ID'], 'FirstUploadFlag'=>'0');
-						//var_dump($data['ID']);exit(0);
 						$isFirstUpload = $pm->getPengguna($data);
 						//var_dump($data['ID']);exit(0);
 						if($isFirstUpload->num_rows>0){
-							/*foreach($data as $key => $value)
-							{
-							  $data[$key]['FirstUploadFlag'] = '1';
-							  $data[$key]['ID'] = $data['ID'];
-							}*/
 							$data['FirstUploadFlag'] = '1';
-							//var_dump($data['ID']." dan ".$data['FirstUploadFlag']);exit(0);
 							$pm->editPengguna($data);
-							//PageController::load($action.'.tpt', array("message"=>"Congratulation, a new book has been added to your repo.","isFirstUpload" => "1"));
 							PageController::load($action.'.tpt', array("message"=>"Congratulation, a new book has been added to your repo. You also get a new badge 'FIRST UPLOAD'."));
 						}else{
 							PageController::load($action.'.tpt', array("message"=>"Congratulation, a new book has been added to your repo."));
@@ -517,8 +535,9 @@
 					PageController::load("hasil-pencarian.tpt", $data);
 				}else if($action == "rate-buku"){
 					include_once("BukuManager.php");								
-					$pm = new BukuManager();
-					$success = $pm->rate($data);
+					include_once("PenggunaManager.php");
+					$bm = new BukuManager();
+					$success = $bm->rate($data);
 					//var_dump($success);exit(0);
 				}else if($action == "rate-pengguna"){
 					include_once("PenggunaManager.php");								
