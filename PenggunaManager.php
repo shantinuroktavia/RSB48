@@ -77,12 +77,15 @@
 			// echo "<br />data: <br />";var_dump($data);echo "<br />cond: <br />";var_dump($cond);exit(0);
 			return $this->db->update("pengguna", $data, $cond);
 		}	
+		
 		/*public function addBadge($data){
-			if($tipe_badge == "newbie"){
-					$data = $this->array('ID'=>$id_pengguna, 'Tipe'=>$tipe_badge);
-					return $this->db->update("pengguna", $data);
+			$data = $this->validate($data);
+			$cond = array('ID'=>$data['ID']);
+			unset($data['ID']);
+			if($data['FirstUploadFlag'] == "0"){
+					 $data['FirstUploadFlag'] == "1";
+					return $this->db->update("pengguna", $data, $cond);
 			}
-			
 		}*/
 		
 		public function deletePengguna($data){

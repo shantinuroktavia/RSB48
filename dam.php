@@ -254,6 +254,9 @@ class DAM extends mysqli{
 	
 	public function retrieve($tableName, $data){
 		if($tableName == "pengguna"){
+			//if($data['FirstUploadFlag'] == "0"){
+				//$query = "SELECT `Nama`,`NewbieFlag` FROM `aktor_sistem` WHERE `NewbieFlag` = $data['FirstUploadFlag']";
+			//}
 			if($data === true){
 				$query = "SELECT `ID`,`isAdmin`,`Username`,`Nama`,`Email`,`Password`, `Lokasi` as `LokasiID`,`nama_lokasi` AS Lokasi,`Reputasi`,`Deskripsi`,`MulaiBlokir`,`SelesaiBlokir`,`AlasanBlokir`,`URLFoto`,`isAlphaTester`,`Jumlah_Rater` FROM `aktor_sistem` LEFT JOIN `lokasi` ON `lokasi`.`id_lokasi` = `aktor_sistem`.`Lokasi` WHERE 1";
 			}else{	
@@ -262,7 +265,7 @@ class DAM extends mysqli{
 					$whereStatement .= "$key='$value' AND ";
 				}
 				$whereStatement = substr($whereStatement, 0, strlen($whereStatement)-4);
-				$query = "SELECT `ID`,`isAdmin`,`Username`,`Nama`,`Email`,`Password`, `Lokasi` as `LokasiID`,`nama_lokasi` AS Lokasi,`Reputasi`,`Deskripsi`,`MulaiBlokir`,`SelesaiBlokir`,`AlasanBlokir`,`URLFoto`,`isAlphaTester`,`Jumlah_Rater` FROM `aktor_sistem` LEFT JOIN `lokasi` ON `lokasi`.`id_lokasi` = `aktor_sistem`.`Lokasi` WHERE $whereStatement";
+				$query = "SELECT `ID`,`isAdmin`,`Username`,`Nama`,`Email`,`Password`, `Lokasi` as `LokasiID`,`nama_lokasi` AS Lokasi,`Reputasi`,`Deskripsi`,`MulaiBlokir`,`SelesaiBlokir`,`AlasanBlokir`,`URLFoto`,`isAlphaTester`,`Jumlah_Rater`, `FirstUploadFlag` FROM `aktor_sistem` LEFT JOIN `lokasi` ON `lokasi`.`id_lokasi` = `aktor_sistem`.`Lokasi` WHERE $whereStatement";
 			}
 			//var_dump($query);exit(0);
 			return parent::query($query);

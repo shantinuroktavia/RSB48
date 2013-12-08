@@ -29,7 +29,7 @@
 						if($success){
 							unset($_SESSION['daftar-pengguna.tpt']);
 							// UNTUK NEWBIE EDIT SCRIPT INI!
-							$data["message"] = "Registration success. You may now login.";
+							$data["message"] = "Registration is success. You also have a new badge 'NEWBIE'. You may login now.";
 							$data["is_newbie"] = "TRUE";
 							PageController::load("halaman-utama.tpt", $data);
 						}else{
@@ -82,10 +82,17 @@
 							PageController::load("halaman-utama.tpt", array("message"=>"You are not logged in."));
 						}else{							
 							include_once("BukuManager.php");
-							$pm = new BukuManager();
-							$books = $pm->getAllBukuByPengguna(array("aktor_sistem.ID"=>$p['ID']));
+							$bm = new BukuManager();
+							$pm = new PenggunaManager();
+							//var_dump($p['ID']); exit(0);
+							$isFirstUpload = '0';
+							$firstUpload = $pm->getPengguna(array("ID"=>$p['ID'],"FirstUploadFlag"=>'1'));
+							if($firstUpload->num_rows>0){
+								$isFirstUpload = '1';
+							}
+							$books = $bm->getAllBukuByPengguna(array("aktor_sistem.ID"=>$p['ID']));
 							//var_dump($books); exit(0);
-							$data = array("void"=>true);
+							$data = array("void"=>true, "firstUploadFlag"=>$isFirstUpload);
 							while($line = $books->fetch_assoc()){
 								$data['books'][] = $line;
 							}
@@ -179,9 +186,11 @@
 					}
 				}else if($action == "tambah-buku"){		
 					include_once("BukuManager.php");
-					$pm = new BukuManager();
+					include_once("PenggunaManager.php");
+					$bm = new BukuManager();
+					$pm = new PenggunaManager();
 					try{
-						$bookId = $pm->addBuku($data);
+						$bookId = $bm->addBuku($data);
 						unset($_SESSION[$action.'.tpt']);
 						
 						$p = PageController::getSessionData();
@@ -190,7 +199,27 @@
 						$bookTitle = $data['Judul'];
 						$content = "Saya baru saja menambahkan buku berjudul <a href='controller.php?dispatch=info-buku&id=$bookId'>\"$bookTitle\"</a> direpositori saya. Lihat profil saya untuk memberikan rating dan resensi.";
 						PageController::log(array('tipe_feed'=>0, 'isi_feed'=>$content, 'id_user'=>$userId, 'id_lokasi'=>$locationId));
-						PageController::load($action.'.tpt', array("message"=>"Congratulation, a new book has been added to your repo."));
+						//var_dump($data['ID']);exit(0);
+						//FIRST UPLOAD
+						$data = array('ID'=>$data['ID'], 'FirstUploadFlag'=>'0');
+						//var_dump($data['ID']);exit(0);
+						$isFirstUpload = $pm->getPengguna($data);
+						//var_dump($data['ID']);exit(0);
+						if($isFirstUpload->num_rows>0){
+							/*foreach($data as $key => $value)
+							{
+							  $data[$key]['FirstUploadFlag'] = '1';
+							  $data[$key]['ID'] = $data['ID'];
+							}*/
+							$data['FirstUploadFlag'] = '1';
+							//var_dump($data['ID']." dan ".$data['FirstUploadFlag']);exit(0);
+							$pm->editPengguna($data);
+							//PageController::load($action.'.tpt', array("message"=>"Congratulation, a new book has been added to your repo.","isFirstUpload" => "1"));
+							PageController::load($action.'.tpt', array("message"=>"Congratulation, a new book has been added to your repo. You also get a new badge 'FIRST UPLOAD'."));
+						}else{
+							PageController::load($action.'.tpt', array("message"=>"Congratulation, a new book has been added to your repo."));
+						}
+						
 					}catch(Exception $e){
 						$data["message"] = $e->getMessage();
 						PageController::load($action.'.tpt', $data);

@@ -70,7 +70,7 @@
 
 									<form name="input_data" action="controller.php" method="post" enctype="multipart/form-data">
 										<input type="hidden" name="dispatch" value="daftar-pengguna" />
-										<input type="hidden" name="newbieFlag" value="1" />
+										<!--<input type="hidden" name="newbieFlag" value="1" />-->
 										<div id="leftcontainer">
 											<table>
 												<tr>

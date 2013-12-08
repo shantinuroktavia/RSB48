@@ -68,6 +68,11 @@
 						<div class="9u">					
 							<!-- Content -->
 								<article class="first">
+									<!-- FIRST UPLOAD DI SINI -->
+									<!--<?php if($_SESSION['tambah-buku.tpt']['isFirstUpload'] == '1'){ 
+										//echo '<script type="text/javascript">alert("Selamat Anda Mendapatkan Badge FIRST UPLOAD");</script>'; 
+										//unset($_SESSION['halaman-utama.tpt']['isFirstUpload']);
+									}?>-->
 									<?php if(isset($_SESSION['tambah-buku.tpt']['message'])){ ?>
 										<div class="row">
 											<div class="12u">

@@ -93,7 +93,7 @@
 						PageController::load("daftar-pengguna.tpt", $_SESSION[$action.".tpt"]);
 					}else{
 						$data['imageURL'] = "uploads/".$_POST['username']."-". basename($_FILES['picture']['name']);	
-						$data['newbieFlag'] = "1";
+						//$data['newbieFlag'] = "1";
 						$data['firstUploadFlag'] = "0";
 						$data['fifthUploadFlag'] = "0";
 						$data['firstFullRatingFlag'] = "0";
