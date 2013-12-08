@@ -27,9 +27,9 @@ Detail login yang disediakan:
 	* password : momod01
 
 * User biasa: 
-	* username : rizkyardiansyah
+	* username : rizkyardiansyah, 
 	  password : rizkyardiansyah
 
-	* username : ronaldo
+	* username : ronaldo, 
 	  password : ronaldo
 	
