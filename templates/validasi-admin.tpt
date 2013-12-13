@@ -73,24 +73,25 @@ salah satu penggunaannya ketika admin menghapus pengguna.-->
 
 								<article class="first">
 								
-								<div id="resetbox">
-									<table>
-									<tr>	
-										<td><div class="circle" id="blue"></div></td>
-										<td><span style="vertical-align:middle">Enter your password</span></td>
-									</tr>
-									<tr>	
-										<td><div class="circle" id="grey"></div></td>
-										<td><span style="vertical-align:middle">Confirm changing</span></td>
-									</tr>
-									</table>
-								</div> 
+							
 								
 								<div class="row" style="float:left;">
 									<div class="12u">			
 										<div style="padding-left:220px">
 										<h3>Alter System Mode</h3>	
 										</div>	
+										<!-- Form konfirmasi admin -->
+										<div id="resetbox" style="margin-top:0px;float:none;margin-bottom:20px">
+											<table>
+											<tr>	
+												<td><div class="circle" id="blue"></div></td>
+												<td><span style="vertical-align:middle">Step 1: Enter your password</span></td>
+												
+												<td><div class="circle" id="grey"></div></td>
+												<td><span style="vertical-align:middle">Step 2: Confirm changing</span></td>
+											</tr>
+											</table>
+										</div> 
 										<div class="cta-box2" style="height:270px">
 											<form name="form1" method="post" action="controller.php">
 												<input type="hidden" name="dispatch" value="validasi-admin" />
