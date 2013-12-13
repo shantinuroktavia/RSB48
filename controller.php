@@ -13,11 +13,11 @@
 	}
 	
 	if($_SERVER['SERVER_NAME']=="localhost")
-		$uploadDir = "C:\\xampp\\htdocs\\betalive\\uploads\\";
+		$uploadDir = "C:\\xampp\\htdocs\\RSB48\\uploads\\";
 	else if($_SERVER['SERVER_NAME']=="buku-kuliah.com")
-		$uploadDir = "/home/bukuk426/public_html/betalive/uploads/";
-	else if($_SERVER['SERVER_NAME']=="192.168.1.102")
-		$uploadDir = "/home/pi/htdocs/buku-kuliah/betalive/uploads/";
+		$uploadDir = "/home/bukuk426/public_html/RSB/uploads/";
+	else if($_SERVER['SERVER_NAME']=="31.170.165.29")
+		$uploadDir = "/home/RSB48/betalive/uploads/";
 	
 	$action = $_REQUEST['dispatch'];
 	if($action == "daftar-pengguna"){
