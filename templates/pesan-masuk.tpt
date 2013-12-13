@@ -1,0 +1,236 @@
+<!-- pesan-masuk.tpt
+---- File ini merupakan template view yang digunakan untuk menampilkan Pesan masuk.
+
+@author : C4-PPL 2013
+-->
+
+<?php
+	//Memeriksa session pengguna untuk pemberian hak akses ke sistem
+	if(!$_SESSION['SessionData']){
+		$_SESSION['halaman-utama.tpt']['message'] = "You're not authorized";
+		header("Location: index.php");
+		exit(0);
+	}
+	if(!$_SESSION['pesan-masuk.tpt']){
+		header("Location: controller.php?dispatch=pesan-masuk");
+		exit(0);
+	}
+	//Mengimport class Statics untuk menampilkan elemen-elemen yang statis
+	include_once("Statics.php");
+?>
+
+
+<!DOCTYPE HTML>
+
+<html>
+	<!-- HTML header-->
+	<!-- meliputi logo, judul dan path script-scipt jquery, javascript yang digunakan-->
+	<head>
+		<link rel="icon" type="image/png" href="images/logo.png" alt="logo">
+		<title><?php echo $_SESSION['SessionData']['Nama']; ?>- Portal Online Pinjam-meminjam Buku Kuliah</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700" rel="stylesheet" />
+		<noscript>
+			<link rel="stylesheet" href="css/5grid/core.css" />
+			<link rel="stylesheet" href="css/5grid/core-desktop.css" />
+			<link rel="stylesheet" href="css/5grid/core-1200px.css" />
+			<link rel="stylesheet" href="css/5grid/core-noscript.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-desktop.css" />
+		</noscript>
+		<script src="css/5grid/jquery.js"></script>
+		<script src="js/jquery.tools.min.js"></script>
+		<script src="css/5grid/init.js?use=mobile,desktop,1000px&amp;mobileUI=1&amp;mobileUI_theme=none&amp;mobileUI_titleBarHeight=60&amp;mobileUI_openerWidth=52"></script>
+		<link rel="stylesheet" href="css/jRating.jquery.css" type="text/css" />
+		<script src="js/jRating.jquery.js"></script>
+		<script src="js/messaging.js"></script>
+                <script src="js/validator.js"></script>
+		<!-- Script untuk mendapatkan jumlah pesan masuk yang baru-->
+	  <script>
+			$(document).ready(function(){
+				getTotalNewMessages(document.getElementById("totalmsg"));
+				<!-- interval cek pesan baru-->
+				setInterval(function(){
+					getTotalNewMessages(document.getElementById("totalmsg"));
+				}, 10000);
+			});
+		</script>
+		<script>
+			var url;
+			<!-- Implementasi untuk fungsi-fungsi statis di sidebar-->
+			$(document).ready(function(){
+				$Subject = "<?php echo @$_SESSION[$scriptName][$username]['Subject']; ?>";
+				$Type= "<?php echo @$_SESSION[$scriptName][$username]['Type']; ?>";
+				$Isi_Keluhan = 	"<?php echo @$_SESSION[$scriptName][$username]['Isi_Keluhan']; ?>";
+				
+				
+				$("#Subject").val($Subject);
+				$("#Type").val($Type);
+				$("#Isi_Keluhan").val($Isi_Keluhan);
+				
+				
+				<?php if (isset($_SESSION[$scriptName][$username]['showBox'])) { ?>
+				setTimeout(function(){
+					showComplaintBox();
+				}, 1500);
+				<?php } ?>
+				
+				<?php if (isset($_SESSION[$scriptName][$username]['Type']) == 1) { ?>
+				$($('#Type option')[1]).attr('selected', true); 
+				<?php } else {?>
+				$($('#Type option')[0]).attr('selected', true); 
+				<?php }?>				
+				$("#Subject").autocomplete({
+					source: function( request, response ) {
+						url = "servers/usernames.php?term=" + request.term; 
+						$.getJSON(url + '&callback=?', function(data) {
+							response(data);
+						});
+					}
+				});
+				
+				countChars(500, "Isi_Keluhan", "characterCounter");
+				<!-- Mendapatkan total pesan masuk yang baru-->
+				getTotalNewMessages(document.getElementById("totalmsg"));
+				<!-- Interval cek jumlah pesan baru-->
+				setInterval(function(){
+					getTotalNewMessages(document.getElementById("totalmsg"));
+				}, 10000);
+			});
+		</script>
+	</head>
+	<body>
+
+
+		<!-- Header -->
+
+			<?php
+				Statics::header(7);
+			?>
+
+		<!-- Main -->
+		<!-- Fungsi untuk memberikan complaint melalui halaman ini-->
+		<div id="light" class="white_content" style="display:none">
+			<div><a href="javascript:void(0)" onclick = "closeLightBox();">[X]</a></div>
+			<div class="lightbox_ct">
+				<h2>AIR YOUR COMPLAINT</h2>
+				<span>Give your complaint here, whether it's about system or user's behavior.</span>
+				<br/>
+				<span>Just tell us!</span>
+				<form action="controller.php" name="" method="post">
+					<input type="hidden" name="dispatch" value="keluhan" />
+					<ul class="comp">		
+						<li><label>Category</label></li>
+						<li>
+							<select name="Type" id="Type">
+								<option value="0">System's Bug</option>
+								<option value="1">User's Behavior</option>
+							</select>
+						</li>
+						<li> <label>Subject</label></li>
+						<li> 
+							<input type="text" id="Subject" name="Subject" style="background-color:#fff;" placeholder="Specify your subject here" required/>
+						</li>
+						<li> <label>Complaint</label></li>
+						<li> 
+							<textarea  name="Isi_Keluhan" id="Isi_Keluhan"  style="background-color:#fff;" onkeyup="countChars(500, 'Isi_Keluhan','characterCounter');" onkeydown="countChars(500, 'Isi_Keluhan','characterCounter');" placeholder="Type your complaint here"></textarea>
+							<br /><span id="characterCounter" style="font-size:12px; margin-top:-18px; float:right; color:#00f"></span>
+							<br />
+						<li> <input type="submit" class="button" value="Submit" style="float:right; margin-top:10px"/></li>
+					</ul>
+				</form>
+			</div>
+		</div>
+		<div id="fade" class="black_overlay" style="display:none"></div>
+
+			<div id="main-wrapper" class="subpage">
+				<div class="5grid-layout">
+					<div class="row">
+						<div class="9u">					
+							<?php 
+							if(isset($_SESSION['pesan-masuk.tpt']['message'])){?>
+								<div class="row">
+									<div class="12u">
+										<div class="error-box">
+											<span><?php echo $_SESSION['pesan-masuk.tpt']['message']; unset($_SESSION['pesan-masuk.tpt']['message']); ?></span>
+										</div>
+									</div>
+								</div>
+							<?php }?>
+						
+							<!-- Content -->
+							<!-- Menampilkan daftar pesan masuk-->
+								<article class="first">
+								
+									<div id="leftcontainer">
+									<h2>Your Inbox Folder</h2><hr />
+                                    <table "border="3" cellpadding="5" cellspacing="5">
+                                      <tr>
+										<td width="20" bgcolor="#ddd"><h4></h4></td>  
+                                        <td width="200" bgcolor="#ddd"><h4>From</h4></td>                                     
+										<td width="200" bgcolor="#ddd"><h4>Received</h4></td>
+                                        <td width="330" bgcolor="#ddd"><h4>Content</h4></td>
+                                      </tr>
+									 </table>
+									  
+									<form action="controller.php" method="post" action="controller" id="form1">
+									  <input type="hidden" name="dispatch" id="dispatch" value="" />
+									  <div style="height:400px; overflow:auto; border-bottom:1px solid #ddd; border-left:1px solid #ddd;" width="680px">
+										  <table "border="3" cellpadding="5" cellspacing="5" style="margin-bottom: 20px"><?php									
+											//Apabila tidak ada pesan di kotak masuk
+											if(count($_SESSION["pesan-masuk.tpt"]) == 0)
+												echo "<tr style='border-bottom:1px solid #ddd'><td colspan='3'> Wow, No Messages </td></tr>";
+											//Apabila ada pesan di kotak masuk
+											else{
+												foreach($_SESSION["pesan-masuk.tpt"] as $message){ 
+													$waktu = date("d F Y, H:i", strtotime($message['Waktu_Pesan']));
+													$name = $message['Nama'];
+													$status = $message['Status_Pesan'];
+													$content = substr(strip_tags(Statics::sanitize($message['Isi_Pesan'])), 0, 40)."..."; 
+													$link = "controller.php?dispatch=lihat-pesan&id=".$message['IDPesan'];
+													
+													echo ($status == 0)?"<tr style='background-color:#eee; border-bottom:1px solid #aaa;'>":"<tr style='border-bottom:1px solid #aaa; line-height:50px'>";
+													echo "<td width='20'><input type='checkbox' class='ids' name='id[]' value='${message['IDPesan']}'/></td>
+														  <td width='200'><a href='$link'>$name</a></td>
+														  <td width='200'>$waktu</td>
+														  <td width='330'>$content</td>";
+													echo " </tr>";
+												}
+											}
+										  ?>
+										 </table>	
+									  </div>			
+									  <span style="float: right; margin-top:10px">
+									  <a onclick="var n = 0; var noneSelected = true; $('.ids').each(function(index, a){ noneSelected &= a.checked; if(a.checked) n++; }); if(n==0){alert('At least choose one message.'); return false;} $('#dispatch').val('simpan-draft'); $('#form1').submit(); " class="button">Send to Draft</a>
+									  <a onclick="var n = 0; var noneSelected = true; $('.ids').each(function(index, a){ noneSelected &= a.checked; if(a.checked) n++; }); if(n==0){alert('At least choose one message to delete.'); return false;} if(confirm('Are you sure want to delete '+n+' message(s)?')){$('#dispatch').val('hapus-pesan'); $('#form1').submit();} " class="button">Delete Message(s)</a>
+									  </span>
+								    </form>
+									</div>
+								</article>							
+						</div>
+						<div class="3u">
+						
+							<!-- Sidebar -->
+								<?php
+								Statics::sidebar();
+							?>
+						
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		<!-- Footer -->
+			<?php
+				Statics::footer(7);
+			?>
+
+	</body>
+</html>
+<?php
+//menghapus session
+unset($_SESSION['pesan-masuk.tpt']);
+?>

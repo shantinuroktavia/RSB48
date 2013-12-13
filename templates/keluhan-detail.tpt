@@ -1,0 +1,155 @@
+<?php
+	include_once("Statics.php");
+	$scriptName = "keluhan-detail.tpt";
+/*	
+	if(!$_SESSION['SessionData']){
+		$_SESSION['halaman-utama.tpt']['message'] = "You're not authorized";
+		header("Location: index.php");
+		exit(0);
+	}
+	
+	if(isset($_GET['id'])){	
+		$id = $_GET['id'];
+		if(!$_SESSION[$scriptName][$id]){
+			header("Location: controller.php?dispatch=lihat-pesan&id=".$id);
+			exit(0);
+		}
+		$displayData = $_SESSION[$scriptName][$id];
+	}else{
+		header("Location: controller.php?dispatch=pesan-masuk");
+		exit(0);
+	} */
+?>
+
+<!DOCTYPE HTML>
+<!--
+	Arcana 1.5 by HTML5 Up!
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<link rel="icon" type="image/png" href="images/logo.png" alt="logo">
+		<title>Message Detail - Portal Online Pinjam Meminjam Buku</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700" rel="stylesheet" />
+		<noscript><link rel="stylesheet" href="css/5grid/core.css" /><link rel="stylesheet" href="css/5grid/core-desktop.css" /><link rel="stylesheet" href="css/5grid/core-1200px.css" /><link rel="stylesheet" href="css/5grid/core-noscript.css" /><link rel="stylesheet" href="css/style.css" /><link rel="stylesheet" href="css/style-desktop.css" /></noscript>
+		<script src="css/5grid/jquery.js"></script>
+		<script src="js/jquery.tools.min.js"></script>
+		<script src="js/jquery-ui.js"></script>
+		<script src="css/5grid/init.js?use=mobile,desktop,1000px&amp;mobileUI=1&amp;mobileUI_theme=none&amp;mobileUI_titleBarHeight=60&amp;mobileUI_openerWidth=52"></script>
+		<!--[if IE 9]><link rel="stylesheet" href="css/style-ie9.css" /><![endif]-->
+		<script src="js/messaging.js"></script>
+		<!-- Fungsi notifikasi pesan -->
+	  	<script>
+			$(document).ready(function(){
+				getTotalNewMessages(document.getElementById("totalmsg"));
+				$("#language").selectbox();
+				setInterval(function(){
+					getTotalNewMessages(document.getElementById("totalmsg"));
+				}, 10000);
+			});
+		</script>
+		<link href="http://select-box.googlecode.com/svn/tags/0.2/jquery.selectbox.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="http://select-box.googlecode.com/svn/tags/0.2/jquery.selectbox-0.2.min.js"></script>
+	</head>
+	<body>
+
+
+		<!-- Header -->
+
+			<?php
+				Statics::header(9);
+			?>
+
+		<!-- Main -->
+
+			<div id="main-wrapper" class="subpage">
+				<div class="5grid-layout">
+					<div class="row">
+						<div class="9u">					
+							<?php 
+							if(isset($displayData['message'])){?>
+								<div class="row">
+									<div class="12u">
+										<div class="error-box">
+											<span><?php echo $displayData['message']; unset($displayData['message']); ?></span>
+										</div>
+									</div>
+								</div>
+							<?php }?>
+						
+							<!-- Content -->
+
+								<article class="first">
+									<div id="leftcontainer">
+										
+										<h2 style="margin-top: 20px"><img src="images/complaint.jpg" alt="" width="70" height="70"/> <a href="controller.php?dispatch=lihat-daftar-keluhan">Complaint</a> &gt;&gt; Complaint Detail</h2><hr />
+										<div style="height:60px">
+											<span style="float:left">
+												<?php // previous keluhan ?>
+													<a href="controller.php?dispatch=lihat-pesan&id=<?php echo $displayData['previous']; ?>" class="button">Previous Complaint</a>
+												<?php // }?>
+											</span>
+											
+											<span style="float:right">
+												<?php  // next keluhan ?>
+													<a href="controller.php?dispatch=lihat-pesan&id=<?php echo $displayData['next']; ?>" class="button">Next Complaint</a>
+												<?php // }?>
+											</span>
+										</div>
+										<table "border="3" cellpadding="5" cellspacing="5"  style="border:1px dashed #aaa; margin-bottom:10px">
+										  <tr>
+												<td width="680" style="background-color: #aaaaaa;"><span style="font-size:x-large">From: <a href="controller.php?dispatch=lihat-profil&user=<?php echo $displayData['Username']; ?>" ><?php echo "Ahmad Ahfa Fanani"// echo $displayData['Nama'] ?></a></span>
+												<span style="float:right" style="font-size:12px"><?php // echo date("d F Y H:i", strtotime($displayData['Waktu_Pesan'])) ?></span>
+												</td>
+												
+										  </tr>
+										  <tr>
+										  <hr/>
+										  <td width="680" style="background-color: #aaaaaa;"><span style="font-size:x-large">Subject: <a href="controller.php?dispatch=lihat-profil&user=<?php echo $displayData['Username']; ?>" ><?php echo "Markonah"// echo $displayData['Nama'] ?></a></span>
+												<span style="float:right" style="font-size:12px"></span>
+												</td>
+										  </tr>
+										  <tr>
+												<td width="680"><?php echo "Kembalikan buku saya Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+
+It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+
+ 
+Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of  (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum,, comes from a line in section 1.10.32.
+
+The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
+
+There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc." //echo Statics::sanitize($displayData['Isi_Pesan']); ?></td>
+										  </tr>
+                                       </table>
+										<br /><br />		
+									
+									</div>
+								</article>							
+						</div>
+						<div class="3u">
+						<!-- Sidebar -->
+							<?php
+								Statics::sidebar();
+							?>
+						
+						</div>
+					</div>
+				</div>
+			</div>
+
+		<!-- Footer -->
+
+			
+		
+
+	</body>
+</html>
+
+<?php
+	unset($_SESSION[$scriptName][$id]);
+?>

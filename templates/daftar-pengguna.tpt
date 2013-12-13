@@ -1,0 +1,146 @@
+<!-- Set session -> 
+<?php
+	if(isset($_SESSION['SessionData'])){
+		$_SESSION['halaman-utama.tpt']['message'] = "Logout first.";
+		header("Location: index.php");
+		exit(0);
+	}
+	include_once("Statics.php");
+	$statics = new Statics();
+	$locations = $statics->getAllLocation();
+?>
+
+<!-- DOCTYPE HTML -->
+<html>
+	<head>
+		<link rel="icon" type="image/png" href="images/logo.png" alt="logo">
+		<title>User Registration - Portal Online Pinjam Meminjam Buku</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700" rel="stylesheet" />
+		<noscript><link rel="stylesheet" href="css/5grid/core.css" /><link rel="stylesheet" href="css/5grid/core-desktop.css" />
+		<link rel="stylesheet" href="css/5grid/core-1200px.css" /><link rel="stylesheet" href="css/5grid/core-noscript.css" />
+		<link rel="stylesheet" href="css/style.css" /><link rel="stylesheet" href="css/style-desktop.css" /></noscript>
+		<script src="css/5grid/jquery.js"></script>
+		<script src="js/jquery.tools.min.js"></script>
+		<script src="js/jquery-ui.js"></script>
+		<script src="css/5grid/init.js?use=mobile,desktop,1000px&amp;mobileUI=1&amp;mobileUI_theme=none&amp;mobileUI_titleBarHeight=60&amp;mobileUI_openerWidth=52"></script>
+		<!--[if IE 9]><link rel="stylesheet" href="css/style-ie9.css" /><![endif]-->
+	
+		<script src="js/validator.js"></script>
+		<script>
+			$(document).ready(function(){
+				countChars(250, "Deskripsi", "characterCounter");
+			});
+	    </script>
+	</head>
+	<body>
+
+
+		<!-- Header -->
+
+			<?php
+				Statics::header();
+			?>
+
+		<!-- Main -->
+
+			<div id="main-wrapper" class="subpage">
+				<div class="5grid-layout">
+					<div class="row">
+						<div class="9u" style="width:1000px">					
+							<!-- Content -->
+								<article class="first" style="margin-left: 20px">
+									<?php 
+									
+									// Error ketika mengisi data
+									if(isset($_SESSION['daftar-pengguna.tpt']['message'])){?>
+										<div class="row">
+											<div class="12u">
+												<div class="error-box">
+													<span><?php echo $_SESSION['daftar-pengguna.tpt']['message']; unset($_SESSION['daftar-pengguna.tpt']['message']); ?></span>
+												</div>
+											</div>
+										</div>
+									<?php }?>
+									
+									<!-- For Registrasi -->
+									<h2>Registration Form</h2>
+
+									<form name="input_data" action="controller.php" method="post" enctype="multipart/form-data">
+										<input type="hidden" name="dispatch" value="daftar-pengguna" />
+										<div id="leftcontainer">
+											<table>
+												<tr>
+												<td><label for="username">Username*</label></td>
+												<td><input type="text"  name="username" placeholder="Enter your username" value="<?php echo @$_SESSION['daftar-pengguna.tpt']['username'];?>" autofocus></br>
+												<span style="font-size:13px; float:right;">6-15 characters, alphanumeric/underscore/dash, first and last character must be alphanumeric</span></td>
+												</tr><tr>
+												<td><label for="name">Full Name*</label></td>
+												<td><input type="text"  name="nama" placeholder="Enter your real name" value="<?php echo @$_SESSION['daftar-pengguna.tpt']['nama'];?>"></br>
+												<span style="font-size:13px; float:right;">Name should contains 3-50 characters</span></td>
+												</tr><tr>
+												<td><label for="email">E-mail*</label></td>
+												<td><input type="text"  name="email" placeholder="Enter your email address" value="<?php echo @$_SESSION['daftar-pengguna.tpt']['email'];?>"></td>
+												</tr><tr>
+												<td><label for="password">Password*</label>
+												</td>
+												<td><input type="password"  name="password" placeholder="Enter your password" value="<?php echo @$_SESSION['daftar-pengguna.tpt']['password'];?>"></br>
+												<span style="font-size:13px; float:right;">6-15 characters, alphanumeric and&#47;or symbols&#58; &#33;&#64;&#35;&#36;&#37;&#94;&#38;&#42;&#40;&#41;</span> 
+												</tr><tr>
+												<td><label for="password">Re-type Password*</label></td>
+												<td><input type="password"  name="password2" placeholder="Re-enter your password" value="<?php echo @$_SESSION['daftar-pengguna.tpt']['password2'];?>"></td>
+												</tr><tr>
+												<td><label for="location">Location*</label></td>
+												<td><div style="width:400px">
+													<select name="lokasi">
+													<?php foreach($locations as $location){ ?>
+														<option value="<?php echo $location['id_lokasi']; ?>" <?php if( @$_SESSION['daftar-pengguna.tpt']['lokasi']==$location['id_lokasi']) echo "selected=selected"; ?>><?php echo $location['nama_lokasi']; ?></option>  
+													<?php } ?>     
+													</select>
+													<br>
+													<span style="font-size:13px;">choose the location closest to you!</span>
+													</div> </td>
+												
+												</tr><tr>
+												<td style="vertical-align:top"><label for="message">Description</label></td>
+												<td>
+													<textarea id="Deskripsi" name="deskripsi" placeholder="A brief description about yourself" onkeyup="countChars(250, 'Deskripsi','characterCounter');" onkeydown="countChars(250, 'Deskripsi','characterCounter');" ><?php echo @$_SESSION['daftar-pengguna.tpt']['deskripsi'];?></textarea>
+													<br /><span id="characterCounter" style="font-size:12px; margin-top:-10px; float:right; color:#00f"></span>			
+												</td>												
+												</tr>												
+											</table>
+											<p id="red">Fields signed (*) must be filled in.</p>												
+											<div style="float:right"> <input class="button" type="submit" value="Sign Up"></div>
+										</div>
+										<div id="rightcontainer">
+											<div style="border:1px solid #eee; float:right; padding:5px">
+											<label for="picupload">Photo Upload*</label><br/>
+											<input type="file" name="picture" id="picupload">
+											<br />											
+											<span style="float:left; font-size:11px">
+											Make sure that photo you're going to upload is less than equal- 100kb of size and having dimension of 800 x 640 pixels.
+											<br />
+											Photo must be having extension of either .png, .jpg, .gif, or .bmp.
+											</span>
+											</div>
+										</div>
+									</form>
+
+								</article>							
+
+						</div>
+						<div class="3u"></div>
+					</div>
+				</div>
+			</div>
+			
+
+		<!-- Footer -->
+			<?php
+				Statics::footer();
+			?>
+
+	</body>
+</html>

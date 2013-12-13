@@ -1,0 +1,263 @@
+<?php
+	//mengimport class Statics untuk menampilkan elemen-elemen yang statis
+	include_once("Statics.php");
+	//nama dari skrip ini
+	$scriptName = "lihat-pesan.tpt";
+	
+	//cek hak akses pengguna
+	if(!$_SESSION['SessionData']){
+		$_SESSION['halaman-utama.tpt']['message'] = "You're not authorized";
+		header("Location: index.php");
+		exit(0);
+	}
+	//memeriksa id untuk suatu pesan yang akan dilihat
+	if(isset($_GET['id'])){	
+		$id = $_GET['id'];
+		if(!$_SESSION[$scriptName][$id]){
+			//memanggil controller untuk melakukan lihat pesan.
+			header("Location: controller.php?dispatch=lihat-pesan&id=".$id);
+			exit(0);
+		}
+		//menampilkan data yang sesuai dengan id
+		$displayData = $_SESSION[$scriptName][$id];
+	}else{
+		//memanggil controller untuk melakukan perintah pesan-masuk
+		header("Location: controller.php?dispatch=pesan-masuk");
+		exit(0);
+	}
+?>
+
+<!DOCTYPE HTML>
+<!--
+	Arcana 1.5 by HTML5 Up!
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<!-- HEADER dari halaman buku-kuliah.com-->
+	<head>
+		<!-- logo web-->
+		<link rel="icon" type="image/png" href="images/logo.png" alt="logo">
+		<!-- judul web-->
+		<title>Message Detail - Portal Online Pinjam Meminjam Buku</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!-- font web-->
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700" rel="stylesheet" />
+		<noscript><link rel="stylesheet" href="css/5grid/core.css" /><link rel="stylesheet" href="css/5grid/core-desktop.css" /><link rel="stylesheet" href="css/5grid/core-1200px.css" /><link rel="stylesheet" href="css/5grid/core-noscript.css" /><link rel="stylesheet" href="css/style.css" /><link rel="stylesheet" href="css/style-desktop.css" /></noscript>
+		<!-- skrip lokasi jquery-->
+		<script src="css/5grid/jquery.js"></script>
+		<!-- skrip lokasi javascript-->
+		<script src="js/jquery.tools.min.js"></script>
+		<script src="js/jquery-ui.js"></script>
+		<script src="css/5grid/init.js?use=mobile,desktop,1000px&amp;mobileUI=1&amp;mobileUI_theme=none&amp;mobileUI_titleBarHeight=60&amp;mobileUI_openerWidth=52"></script>
+		<!--[if IE 9]><link rel="stylesheet" href="css/style-ie9.css" /><![endif]-->
+		<script src="js/messaging.js"></script>
+		<!-- skript javascript khusus validator (confirmation)-->
+		<script src="js/validator.js"></script>
+	  	<script>
+			var url;
+			$(document).ready(function(){
+				$Subject = "<?php 
+				//fungsi untuk menampilkan subject pesan
+				echo @$_SESSION[$scriptName][$username]['Subject']; ?>";
+				$Type= "<?php echo @$_SESSION[$scriptName][$username]['Type']; ?>";
+				$Isi_Keluhan = 	"<?php echo @$_SESSION[$scriptName][$username]['Isi_Keluhan']; ?>";
+				//$IDPenerima = 	"<?php echo @$_SESSION[$scriptName][$username]['IDPenerima']; ?>";
+				
+				$("#Subject").val($Subject);
+				$("#Type").val($Type);
+				$("#Isi_Keluhan").val($Isi_Keluhan);
+				//$("#IDPenerima").val($IDPenerima);
+				
+				<?php if (isset($_SESSION[$scriptName][$username]['showBox'])) { ?>
+				setTimeout(function(){
+					showComplaintBox();
+				}, 1500);
+				<?php } ?>
+				
+				<?php if (isset($_SESSION[$scriptName][$username]['Type']) == 1) { ?>
+				$($('#Type option')[1]).attr('selected', true); 
+				<?php } else {?>
+				$($('#Type option')[0]).attr('selected', true); 
+				<?php }?>				
+				$("#Subject").autocomplete({
+					source: function( request, response ) {
+						url = "servers/usernames.php?term=" + request.term; 
+						$.getJSON(url + '&callback=?', function(data) {
+							response(data);
+						});
+					}
+				});
+				<!-- counter untuk isis keluhan maksimal 500 karakter-->
+				countChars(500, "Isi_Keluhan", "characterCounter");
+				<!-- mendapatkan pesan baru-->
+				getTotalNewMessages(document.getElementById("totalmsg"));
+				<!-- interval untuk pengecekan pesan baru-->
+				setInterval(function(){
+					getTotalNewMessages(document.getElementById("totalmsg"));
+				}, 10000);
+			});
+		</script>
+		<!--Skrip untuk memeriksa pesan baru secara periodik -->
+	  	<script>
+			$(document).ready(function(){
+				getTotalNewMessages(document.getElementById("totalmsg"));
+				$("#language").selectbox();
+				setInterval(function(){
+					getTotalNewMessages(document.getElementById("totalmsg"));
+				}, 10000);
+			});
+		</script>
+		<link href="http://select-box.googlecode.com/svn/tags/0.2/jquery.selectbox.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="http://select-box.googlecode.com/svn/tags/0.2/jquery.selectbox-0.2.min.js"></script>
+	</head>
+	<body>
+
+
+		<!-- Header -->
+			<?php
+			//menampilkan header dari class Statics
+				Statics::header(9);
+			?>
+
+		<!-- Main -->
+		
+		<!-- Implementasi Memberikan Keluhan-->
+		<div id="light" class="white_content" style="display:none">
+			<!-- Tombol close-->
+			<div><a href="javascript:void(0)" onclick = "closeLightBox();">[X]</a></div>
+			<!-- kotak dialog menggunakan loghtbox-->
+			<div class="lightbox_ct">
+				<h2>AIR YOUR COMPLAINT</h2>
+				<span>Give your complaint here, whether it's about system or user's behavior.</span>
+				<br/>
+				<span>Just tell us!</span>
+				<form action="controller.php" name="" method="post">
+					<input type="hidden" name="dispatch" value="keluhan" />
+					<ul class="comp">		
+						<li><label>Category</label></li>
+						<li>
+							<!-- Pilihan untuk memilih complainant-->
+							<select name="Type" id="Type">
+								<option value="0">System's Bug</option>
+								<option value="1">User's Behavior</option>
+							</select>
+						</li>
+						<li> 
+						<!-- Subject keluhan-->
+						<label>Subject</label></li>
+						<li> 
+							<input type="text" id="Subject" name="Subject" style="background:#fff" placeholder="Specify your subject here" required/>
+						</li>
+						<li> <label>Complaint</label></li>
+						<li> 
+						<!-- Field Isi keluhan -->
+							<textarea  name="Isi_Keluhan" id="Isi_Keluhan"  style="background-color:#fff" onkeyup="countChars(500, 'Isi_Keluhan','characterCounter');" onkeydown="countChars(500, 'Isi_Keluhan','characterCounter');" placeholder="Type your complaint here"></textarea>
+							<br /><span id="characterCounter" style="font-size:12px; margin-top:-18px; float:right; color:#00f"></span>
+							<br />
+						<li>
+						<!-- TOmbol untuk mengirim keluhan-->
+						<input type="submit" class="button" value="Submit" style="float:right; margin-top:10px"/></li>
+					</ul>
+				</form>
+			</div>
+		</div>
+		<div id="fade" class="black_overlay" style="display:none"></div>
+			<div id="main-wrapper" class="subpage">
+				<div class="5grid-layout">
+					<div class="row">
+						<div class="9u">					
+							<?php 
+							//Menampilkan pesan di kotak masuk
+							if(isset($displayData['message'])){?>
+								<div class="row">
+									<div class="12u">
+										<div class="error-box">
+											<span><?php echo $displayData['message']; unset($displayData['message']); ?></span>
+										</div>
+									</div>
+								</div>
+							<?php }?>
+						
+							<!-- Content -->
+
+								<article class="first">
+									<div id="leftcontainer">
+										
+										<h2 style="margin-top: 20px"><img src="images/inbox-pict.jpg" alt="" width="30" height="30"/> <a href="controller.php?dispatch=pesan-masuk">Inbox </a> &gt;&gt; Message Detail</h2><hr />
+										<div style="height:60px">
+											<span style="float:left">
+												<?php 
+												//fungsi untuk link melihat pesan sebelumnya
+												if($displayData['previous']){ ?>
+													<a href="controller.php?dispatch=lihat-pesan&id=<?php echo $displayData['previous']; ?>" class="button">Previous Message</a>
+												<?php }?>
+											</span>
+											
+											<span style="float:right">
+												<?php 
+												//fungsi untuk melihat pesan berikutnya
+												if($displayData['next']) {?>
+													<a href="controller.php?dispatch=lihat-pesan&id=<?php echo $displayData['next']; ?>" class="button">Next Message</a>
+												<?php }?>
+											</span>
+										</div>
+										<table "border="3" cellpadding="5" cellspacing="5"  style="border:1px dashed #aaa; margin-bottom:10px">
+										  <tr>
+										  <!-- Menampilkan sebuah pesan -->
+												<td width="680" style="background-color: #aaaaaa;"><span style="font-size:x-large">From: <a href="controller.php?dispatch=lihat-profil&user=<?php echo $displayData['Username']; ?>" ><?php echo $displayData['Nama'] ?></a></span>
+												<span style="float:right" style="font-size:12px"><?php echo date("d F Y H:i", strtotime($displayData['Waktu_Pesan'])) ?></span>
+												</td>
+										  </tr>
+										  <tr>
+												<td width="680"><?php 
+												//validasi isi pesan
+												echo Statics::sanitize($displayData['Isi_Pesan']); ?></td>
+										  </tr>
+                                       </table>
+										<br /><br />	
+										<!-- Field untuk membalas pesan-->
+										<h4>Reply this message:</h4>
+										<form action="controller.php" method="post">
+											<input type="hidden" name="dispatch" value="kirim-pesan" />
+											<input type="hidden" name="to" value="<?php echo $displayData['Username'] ?>" />
+											<input type="hidden" name="subject" value="REPLY MESSAGE" />
+											<div style="border:1px solid #cbcbcb">
+												<div style="margin: 5px 0 0 5px;">
+												<!-- text area untuk isi balasan pesan-->
+												<textarea style="width:670px; height:100px; resize:none" name="content" placeholder="Write a reply..."></textarea>
+												</div>
+												<div style="margin-top:-10px; background-color:#e5e5e7; padding:10px 5px 0 5px; padding-left:600px">
+												<!-- button untuk mengirim balasan bpesan-->
+												<input type="submit" class="submit" value="Reply"/>
+												</div>
+											</div>
+										</form>
+									</div>
+								</article>							
+						</div>
+						<div class="3u">
+						<!-- Sidebar -->
+							<?php
+								Statics::sidebar();
+							?>
+						
+						</div>
+					</div>
+				</div>
+			</div>
+
+		<!-- Footer -->
+
+			
+		
+
+	</body>
+</html>
+
+<?php
+//menghapus session
+	unset($_SESSION[$scriptName][$id]);
+?>
