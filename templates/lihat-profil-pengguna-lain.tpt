@@ -281,7 +281,7 @@
 											foreach($displayData['books'] as $book){
 												$id = $book['IDBuku'];
 												$title = stripslashes(stripslashes($book['Judul'])).", ed.".$book['Edisi'];
-												$status = $book['Status']== 0?"Available":"Not Available";
+												$status = $book['Status']== 0?"Vacant":"Engaged";
 												$author = stripslashes(stripslashes($book['Pengarang']));
 									?>
 												<tr style="">
