@@ -108,24 +108,25 @@
 												<td>
 													<textarea id="Deskripsi" name="deskripsi" placeholder="A brief description about yourself" onkeyup="countChars(250, 'Deskripsi','characterCounter');" onkeydown="countChars(250, 'Deskripsi','characterCounter');" ><?php echo @$_SESSION['daftar-pengguna.tpt']['deskripsi'];?></textarea>
 													<br /><span id="characterCounter" style="font-size:12px; margin-top:-10px; float:right; color:#00f"></span>			
-												</td>												
+												</td>	
+												</tr><tr>
+												<td><label for="picupload">Photo Upload*</label><br/></td>
+												<td><div style="border:1px solid #eee; float:right; padding:5px">
+													<input type="file" name="picture" id="picupload">
+													<br />											
+													<span style="float:left; font-size:11px">
+													Make sure that photo you're going to upload is less than equal- 100kb of size and having dimension of 800 x 640 pixels.
+													<br />
+													Photo must be having extension of either .png, .jpg, .gif, or .bmp.
+													</span>
+													</div> </td>
+													
 												</tr>												
 											</table>
 											<p id="red">Fields signed (*) must be filled in.</p>												
 											<div style="float:right"> <input class="button" type="submit" value="Sign Up"></div>
 										</div>
-										<div id="rightcontainer">
-											<div style="border:1px solid #eee; float:right; padding:5px">
-											<label for="picupload">Photo Upload*</label><br/>
-											<input type="file" name="picture" id="picupload">
-											<br />											
-											<span style="float:left; font-size:11px">
-											Make sure that photo you're going to upload is less than equal- 100kb of size and having dimension of 800 x 640 pixels.
-											<br />
-											Photo must be having extension of either .png, .jpg, .gif, or .bmp.
-											</span>
-											</div>
-										</div>
+										
 									</form>
 
 								</article>							
