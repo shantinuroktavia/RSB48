@@ -114,13 +114,13 @@
 										<section class="thumbnails first last">
 											<div class="5grid">
 												<div class="row">
-													<!-- <div class="4u">
+													<div class="4u">
 														<div class="thumbnail first">	
 															<a href="controller.php?dispatch=lihat-daftar-pengguna"><img src="uploads/sitask.png" alt="" width="92" height="122"/></a>
 															<a href="controller.php?dispatch=lihat-daftar-pengguna">USERS LIST</a>
 																													
 														</div>
-													</div> -->
+													</div>
 													<div class="4u">
 														<div class="thumbnail first">	
 															<a href="controller.php?dispatch=lihat-daftar-keluhan"><img src="uploads/complaint.png" alt="" width="92" height="122"/></a>
@@ -128,13 +128,13 @@
 																													
 														</div>
 													</div>
-													<!-- <div class="4u">
+													<div class="4u">
 														<div class="thumbnail">
 															<a href="controller.php?dispatch=lihat-daftar-buku"><img src="uploads/sibuku.png" alt="" width="92" height="122"/></a>
 															<a href="controller.php?dispatch=lihat-daftar-buku">BOOKS LIST</a>
 															
 														</div>
-													</div> -->
+													</div>
 													<div class="12u">
 														<div class="divider"></div>
 													</div>
@@ -145,7 +145,7 @@
 													<div class="4u">
 														<div class="thumbnail first">
 														<?php 
-															if($_SESSION['SystemMode'] == 0){?>
+															if($_SESSION['SystemMode'] == 0){ ?>
 															<a href="controller.php?dispatch=ubah-sistem-mode&mode=2"><img src="images/release.png" alt="" width="92" height="122"/></a>
 															<a href="controller.php?dispatch=ubah-sistem-mode&mode=2">SET SYSTEM MODE TO RELEASE</a>
 														<?php }else{?>	

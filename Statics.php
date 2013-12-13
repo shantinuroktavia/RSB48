@@ -138,8 +138,7 @@ END;
 		}
 		//Header ada beberapa tipe
 		public static function header($current = 0){
-		$isAdmin1 = isset($_SESSION['SessionData']) && ($_SESSION['SessionData']['isAdmin'] == 1);
-		$isAdmin2 = isset($_SESSION['SessionData']) && ($_SESSION['SessionData']['isAdmin'] == 2);
+		$isAdmin = isset($_SESSION['SessionData']) && $_SESSION['SessionData']['isAdmin'] == 1;
 		$isUser = isset($_SESSION['SessionData']) && $_SESSION['SessionData']['isAdmin'] == 0;
 		$currentItem = array(0=>"",1=>"",2=>"");
 		$currentItem[$current] = "class='current_page_item'";
@@ -157,14 +156,9 @@ END;
 								<ul>
 									<li ${currentItem[0]}><a href="index.php">Homepage</a></li>
 END;
-								if($isAdmin1){ 
+								if($isAdmin){ 
 									echo <<<END
 											<li ${currentItem[1]}><a href="view.php?p=halaman-admin.tpt">Maintenance</a></li>											
-											<li ${currentItem[2]}><a href="controller.php?dispatch=keluar">Sign Out</a></li>
-END;
-								}else if($isAdmin2){ 
-									echo <<<END
-											<li ${currentItem[1]}><a href="view.php?p=halaman-moderator.tpt">Maintenance</a></li>											
 											<li ${currentItem[2]}><a href="controller.php?dispatch=keluar">Sign Out</a></li>
 END;
 								}else if($isUser){

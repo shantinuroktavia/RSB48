@@ -57,9 +57,6 @@
 						if($p['isAdmin'] == 1){
 							PageController::load("halaman-admin.tpt", array("message"=>"Login Success", "data"=>$p));
 							$_SESSION['SessionData']['token'] = PageController::getRandomChars(20);
-						}elseif($p['isAdmin'] == 2){
-							PageController::load("halaman-moderator.tpt", array("message"=>"Login Success", "data"=>$p));
-							$_SESSION['SessionData']['token'] = PageController::getRandomChars(20);
 						}else
 							PageController::load("halaman-utama.tpt", array("message"=>"Login Success", "data"=>$p));						
 					}else if($authData['status'] == INVALID_USERNAME){
@@ -69,6 +66,7 @@
 					}else if($authData['status'] == BLOCKED){
 						PageController::load("halaman-utama.tpt", array("message"=>"Your account is temporarily blocked until ${authData['to']} for reason: ${authData['reason']}"));
 					}
+					
 				}else if($action == "keluar"){
 					PageController::setSessionData();
 					PageController::load("halaman-utama.tpt", array("message"=>"Logout success"));
@@ -219,7 +217,7 @@
 						
 						$_SESSION['PageController']['message'] = "$n book(s) have been trashed.";
 						PageController::dispatch("lihat-profil", true);
-					}else if($_SESSION['SessionData']['isAdmin'] == 2){
+					}else if($_SESSION['SessionData']['isAdmin'] == 1){
 						$data = array_unique($data, SORT_NUMERIC);
 						$n = count($data);
 						foreach($data as $id){ 
@@ -246,7 +244,7 @@
 						$userInfo = $temp->fetch_assoc();
 						$hash = PageController::getRandomChars(20);
 						$data = array("ID"=>$userInfo['ID'], "Hash"=>$hash, "Expire_Time"=>date("Y-m-d H:i:s", strtotime("+10 minutes")));
-						$recoveryLink = "controller.php?dispatch=validasi-email&hash=$hash";
+						$recoveryLink = "http://buku-kuliah.com/betalive/controller.php?dispatch=validasi-email&hash=$hash";
 						//var_dump($data);exit(0);
 						$pm->savePasswordRecoveryData($data);
 						$to     = $email;

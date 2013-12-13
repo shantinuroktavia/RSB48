@@ -7,13 +7,13 @@
 	$pm = new SistemManager();
 	
 	$_SESSION['SystemMode'] = $pm->getSystemMode();
-	if($_SESSION['SystemMode'] == 1 && ((!isset($_SESSION['SessionData'])) || (isset($_SESSION['SessionData']) && ($_SESSION['SessionData']['isAdmin'] != 1 || $_SESSION['SessionData']['isAdmin'] != 2)))){
+	if($_SESSION['SystemMode'] == 1 && ((!isset($_SESSION['SessionData'])) || (isset($_SESSION['SessionData']) && ($_SESSION['SessionData']['isAdmin'] != 1)))){
 		header("Location: index.php");
 		exit(0);
 	}
 	
 	if($_SERVER['SERVER_NAME']=="localhost")
-		$uploadDir = "C:\\xampp\\htdocs\\betalive\\uploads\\";
+		$uploadDir = "C:\\xampp\\htdocs\\RSB48\\uploads\\";
 	else if($_SERVER['SERVER_NAME']=="buku-kuliah.com")
 		$uploadDir = "/home/bukuk426/public_html/betalive/uploads/";
 	else if($_SERVER['SERVER_NAME']=="192.168.1.102")
@@ -574,7 +574,7 @@ $_POST['content'] = preg_replace("|[ ]+|"," ", trim($_POST['content']));
 		}
 	}else if($action == "hapus-pengguna"){
 		$sessionData = PageController::getSessionData();
-		if($sessionData && $sessionData['isAdmin']==2){
+		if($sessionData && $sessionData['isAdmin']==1){
 			if($_POST['token'] != $_SESSION['SessionData']['token']){
 				PageController::load("halaman-utama.tpt", array("message"=>"Invalid Token. Make sure you have been authorized."));
 			}
@@ -630,14 +630,14 @@ $_POST['content'] = preg_replace("|[ ]+|"," ", trim($_POST['content']));
 		}
 	}else if($action == "lihat-daftar-keluhan"){
 		$sessionData = PageController::getSessionData();
-		if($sessionData && ($sessionData['isAdmin']==1 || $sessionData['isAdmin']==2)) {
+		if($sessionData && $sessionData['isAdmin']==1){
 			PageController::dispatch("lihat-daftar-keluhan", true);
 		}else{
 			PageController::load("halaman-utama.tpt", array("message"=>"You aren't authorized"));
 		}
 	}else if($action == "blokir-pengguna"){
 		$sessionData = PageController::getSessionData();
-		if($sessionData && $sessionData['isAdmin']==2){
+		if($sessionData && $sessionData['isAdmin']==1){
 			//var_dump($_POST);
 			$data = $_POST;
 			unset($data['dispatch']);
@@ -648,7 +648,7 @@ $_POST['content'] = preg_replace("|[ ]+|"," ", trim($_POST['content']));
 		}
 	}else if($action == "lihat-keluhan"){
 		$sessionData = PageController::getSessionData();
-		if($sessionData && ($sessionData['isAdmin']==1 || $sessionData['isAdmin']==2) && $_GET){
+		if($sessionData && $sessionData['isAdmin']==1 && $_GET){
 			$data = array('IDKeluhan'=>$_GET['id']);
 			PageController::dispatch($action, $data);
 		}else{
@@ -671,7 +671,7 @@ $_POST['content'] = preg_replace("|[ ]+|"," ", trim($_POST['content']));
 		}
 	}else if($action == "solve-keluhan"){
 		$sessionData = PageController::getSessionData();
-		if($sessionData && ($sessionData['isAdmin']==1 || $sessionData['isAdmin']==2) && $_GET){
+		if($sessionData && $sessionData['isAdmin']==1 && $_GET){
 			$data = array('IDKeluhan'=>$_GET['id']);
 			PageController::dispatch($action, $data);
 		}else{
@@ -679,7 +679,7 @@ $_POST['content'] = preg_replace("|[ ]+|"," ", trim($_POST['content']));
 		}
 	}else if($action == "hapus-keluhan"){
 		$sessionData = PageController::getSessionData();
-		if($sessionData && ($sessionData['isAdmin']==1 || $sessionData['isAdmin']==2) && $_GET){
+		if($sessionData && $sessionData['isAdmin']==1 && $_GET){
 			$data = array('IDKeluhan'=>$_GET['id']);
 			PageController::dispatch($action, $data);
 		}else{
